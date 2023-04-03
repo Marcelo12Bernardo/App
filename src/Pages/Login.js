@@ -1,10 +1,24 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
-export default class Login extends Component {
+class Login extends Component {
   state = {
     email: '',
     password: '',
     buttonDisabled: true,
+  };
+
+  handleClick = (e) => {
+    e.preventDefault();
+    const { history } = this.props;
+    const { email } = this.state;
+    // const loginStorage = localStorage.getItem('user');
+    // if (loginStorage) {
+    //   history.push('/meals');
+    // } else {
+    localStorage.setItem('user', JSON.stringify({ email }));
+    history.push('/meals');
+    // }
   };
 
   handleChange = ({ target }) => {
@@ -47,6 +61,7 @@ export default class Login extends Component {
         <button
           data-testid="login-submit-btn"
           disabled={ buttonDisabled }
+          onClick={ (e) => this.handleClick(e) }
         >
           Entrar
 
@@ -55,3 +70,11 @@ export default class Login extends Component {
     );
   }
 }
+
+Login.propTypes = {
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
+};
+
+export default Login;
