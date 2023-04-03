@@ -1,9 +1,13 @@
 import React, { Component } from 'react';
+import Header from '../Components/Header';
 
 export default class DoneRecipes extends Component {
   render() {
     return (
-      <div>DoneRecipes</div>
+      <div>
+        <Header name="Done Recipes" />
+        DoneRecipes
+      </div>
     );
   }
 }
