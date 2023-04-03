@@ -1,8 +1,8 @@
 import { combineReducers } from 'redux';
-import { login } from './loginReducer';
+import { searchBar } from './searchBarReducer';
 
 const reducer = combineReducers({
-  login,
+  searchBar,
 });
 
 export default reducer;
