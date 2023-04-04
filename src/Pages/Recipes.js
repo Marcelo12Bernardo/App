@@ -11,8 +11,6 @@ class Recipes extends Component {
   componentDidMount() {
     const { dispatch, history } = this.props;
     dispatch(pushAction(history.push));
-    console.log(history.push);
-    console.log(typeof history.push);
   }
 
   render() {
