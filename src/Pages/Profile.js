@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Footer from '../Components/Footer';
 import Header from '../Components/Header';
 
 export default class Profile extends Component {
@@ -7,6 +8,9 @@ export default class Profile extends Component {
       <div>
         <Header name="Profile" />
         Profile
+        <footer>
+          <Footer />
+        </footer>
       </div>
     );
   }

@@ -1,7 +1,7 @@
 import { PUSH_ACTION } from '../Actions';
 
 const INITIAL_STATE = {
-  pushFunction: '',
+  pushFunction: () => {},
 };
 
 export const pushReducer = (state = INITIAL_STATE, action) => {
