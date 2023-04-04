@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import ProfileIcon from './ProfileIcon';
 import SearchIcon from './SearchIcon';
-import SearchComponent from './SearchComponent';
+import SearchBar from './SearchBar';
 
 class Header extends Component {
   render() {
@@ -14,11 +14,11 @@ class Header extends Component {
         <header
           data-testid="page-title"
         >
-          {name}
+          {name === '/meals' ? 'Meals' : 'Drinks'}
         </header>
         <ProfileIcon />
-        {name === 'Meals' || name === 'Drinks' ? <SearchIcon /> : null}
-        {searchBar && <SearchComponent /> }
+        {name === '/meals' || name === '/drinks' ? <SearchIcon /> : null}
+        {searchBar && <SearchBar foodOrDrink={ name } /> }
       </div>
     );
   }
