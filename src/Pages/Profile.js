@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Footer from '../Components/Footer';
 import PropTypes from 'prop-types';
 import Header from '../Components/Header';
 
@@ -19,6 +20,10 @@ export default class Profile extends Component {
     return (
       <div>
         <Header name="Profile" />
+        Profile
+        <footer>
+          <Footer />
+        </footer>
         <h3 data-testid="profile-email">{emailUser.email}</h3>
         <section>
           <button
@@ -46,7 +51,6 @@ export default class Profile extends Component {
 
           </button>
         </section>
-
       </div>
     );
   }
