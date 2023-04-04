@@ -5,6 +5,7 @@ import Meals from '../Components/Meals';
 import Drinks from '../Components/Drinks';
 import Header from '../Components/Header';
 import { pushAction } from '../Redux/Actions';
+import Footer from '../Components/Footer';
 
 class Recipes extends Component {
   componentDidMount() {
@@ -20,6 +21,9 @@ class Recipes extends Component {
       <div>
         <Header name={ pathname } />
         {pathname === '/meals' ? <Meals /> : <Drinks />}
+        <footer>
+          <Footer />
+        </footer>
       </div>
     );
   }
