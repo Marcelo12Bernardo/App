@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import Footer from '../Components/Footer';
 import PropTypes from 'prop-types';
+import Footer from '../Components/Footer';
 import Header from '../Components/Header';
 
 export default class Profile extends Component {
@@ -21,10 +21,7 @@ export default class Profile extends Component {
       <div>
         <Header name="Profile" />
         Profile
-        <footer>
-          <Footer />
-        </footer>
-        <h3 data-testid="profile-email">{emailUser.email}</h3>
+        <h3 data-testid="profile-email">{emailUser ? emailUser.email : null}</h3>
         <section>
           <button
             type="button"
@@ -51,6 +48,9 @@ export default class Profile extends Component {
 
           </button>
         </section>
+        <footer>
+          <Footer />
+        </footer>
       </div>
     );
   }

@@ -6,7 +6,6 @@ export default class DoneRecipes extends Component {
     return (
       <div>
         <Header name="Done Recipes" />
-        DoneRecipes
       </div>
     );
   }
