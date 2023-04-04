@@ -1,21 +1,33 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { saveFetchAction } from '../Redux/Actions';
 
-export default class SearchBar extends Component {
+class SearchBar extends Component {
   state = {
     inputText: '',
     searchFilter: '',
   };
+
+  // checkToRedirect = (json) => {
+  //   const { history } = this.props;
+  //   if (json) {
+  //     if (json.meals?.length === 1) {
+  //       history.push(`/meals/${json.meals.idMeal}`);
+  //     }
+  //     if (json.drinks?.length === 1) {
+  //       history.push(`/drinks/${json.drinks.idDrink}`);
+  //     }
+  //   }
+  // };
 
   handleChange = ({ target }) => {
     const { name, value } = target;
     this.setState({ [name]: value });
   };
 
-  handleClick = async (e) => {
-    e.preventDefault();
-    const { inputText, searchFilter } = this.state;
-    const { foodOrDrink } = this.props;
+  fetchFunction = async (inputText, searchFilter, foodOrDrink) => {
+    const { dispatch } = this.props;
     let firstFetch;
     let json;
     switch (searchFilter) {
@@ -60,6 +72,16 @@ export default class SearchBar extends Component {
     default:
       break;
     }
+    dispatch(saveFetchAction(json));
+    // return json;
+  };
+
+  handleClick = async (e) => {
+    e.preventDefault();
+    const { inputText, searchFilter } = this.state;
+    const { foodOrDrink } = this.props;
+    this.fetchFunction(inputText, searchFilter, foodOrDrink);
+    // this.checkToRedirect(json);
   };
 
   render() {
@@ -128,4 +150,10 @@ export default class SearchBar extends Component {
 
 SearchBar.propTypes = {
   foodOrDrink: PropTypes.string.isRequired,
+  dispatch: PropTypes.func.isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
 };
+
+export default connect()(SearchBar);
