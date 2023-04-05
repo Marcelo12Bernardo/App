@@ -15,6 +15,34 @@ function App() {
     <div>
       <Switch>
         <Route exact path="/" component={ Login } />
+        <Route exact path="/meals" component={ Recipes } />
+        <Route exact path="/drinks" component={ Recipes } />
+        <Route
+          exact
+          path="/meals/:id-da-receita"
+          render={ (props) => (<RecipeDetails
+            { ...props }
+          />) }
+        />
+        <Route
+          exact
+          path="/drinks/:id-da-receita"
+          render={ (props) => (<RecipeDetails
+            { ...props }
+          />) }
+        />
+        <Route
+          exact
+          path="/meals/:id-da-receita/in-progress"
+          component={ MealInProgress }
+        />
+        <Route path="/profile" component={ Profile } />
+        <Route path="/done-recipes" component={ DoneRecipes } />
+        <Route path="/favorite-recipes" component={ Favorites } />
+      </Switch>
+
+      {/* <Switch>
+        <Route exact path="/" component={ Login } />
         <Route path="/favorite-recipes" component={ DrinkInProgress } />
         <Route
           exact
@@ -32,7 +60,7 @@ function App() {
         <Route path="/profile" component={ Profile } />
         <Route path="/done-recipes" component={ DoneRecipes } />
         <Route path="/favorite-recipes" component={ Favorites } />
-      </Switch>
+      </Switch> */}
     </div>
   );
 }
