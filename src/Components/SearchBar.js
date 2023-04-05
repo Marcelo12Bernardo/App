@@ -9,17 +9,15 @@ class SearchBar extends Component {
     searchFilter: '',
   };
 
-  // checkToRedirect = (json) => {
-  //   const { history } = this.props;
-  //   if (json) {
-  //     if (json.meals?.length === 1) {
-  //       history.push(`/meals/${json.meals.idMeal}`);
-  //     }
-  //     if (json.drinks?.length === 1) {
-  //       history.push(`/drinks/${json.drinks.idDrink}`);
-  //     }
-  //   }
-  // };
+  componentDidUpdate() {
+    const { push, result, foodOrDrink } = this.props;
+    if (foodOrDrink === '/meals' && result?.length === 1) {
+      push(`/meals/${result[0].idMeal}`);
+    }
+    if (foodOrDrink === '/drinks' && result?.length === 1) {
+      push(`/drinks/${result[0].idDrink}`);
+    }
+  }
 
   handleChange = ({ target }) => {
     const { name, value } = target;
@@ -149,11 +147,15 @@ class SearchBar extends Component {
 }
 
 SearchBar.propTypes = {
+  push: PropTypes.func.isRequired,
+  result: PropTypes.instanceOf(Array).isRequired,
   foodOrDrink: PropTypes.string.isRequired,
   dispatch: PropTypes.func.isRequired,
-  history: PropTypes.shape({
-    push: PropTypes.func.isRequired,
-  }).isRequired,
 };
 
-export default connect()(SearchBar);
+const mapStateToProps = (state) => ({
+  result: state.saveFetchReducer.result,
+  push: state.pushReducer.pushFunction,
+});
+
+export default connect(mapStateToProps)(SearchBar);
