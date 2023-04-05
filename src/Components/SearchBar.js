@@ -12,20 +12,14 @@ class SearchBar extends Component {
   };
 
   componentDidUpdate() {
-    this.checkToRedirect();
-  }
-
-  checkToRedirect = () => {
-    const { push, results } = this.props;
-    if (results.meals || results.drinks) {
-      if (results.meals?.length === 1) {
-        push(`/meals/${results.meals[0].idMeal}`);
-      }
-      if (results.drinks?.length === 1) {
-        push(`/drinks/${results.drinks[0].idDrink}`);
-      }
+    const { push, result, foodOrDrink } = this.props;
+    if (foodOrDrink === '/meals' && result?.length === 1) {
+      push(`/meals/${result[0].idMeal}`);
     }
-  };
+    if (foodOrDrink === '/drinks' && result?.length === 1) {
+      push(`/drinks/${result[0].idDrink}`);
+    }
+  }
 
   fetchIngredients = async (inputText, foodOrDrink) => {
     const { dispatch } = this.props;
@@ -201,13 +195,13 @@ class SearchBar extends Component {
 
 SearchBar.propTypes = {
   push: PropTypes.func.isRequired,
-  results: PropTypes.instanceOf(Object).isRequired,
+  result: PropTypes.instanceOf(Array).isRequired,
   foodOrDrink: PropTypes.string.isRequired,
   dispatch: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
-  results: state.saveFetchReducer.result,
+  result: state.saveFetchReducer.result,
   push: state.pushReducer.pushFunction,
 });
 
