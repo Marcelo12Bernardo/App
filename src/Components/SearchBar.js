@@ -21,9 +21,16 @@ class SearchBar extends Component {
     }
   }
 
-  handleChange = ({ target }) => {
-    const { name, value } = target;
-    this.setState({ [name]: value });
+  checkToRedirect = () => {
+    const { push, results } = this.props;
+    if (results.meals || results.drinks) {
+      if (results.meals?.length === 1) {
+        push(`/meals/${results.meals[0].idMeal}`);
+      }
+      if (results.drinks?.length === 1) {
+        push(`/drinks/${results.drinks[0].idDrink}`);
+      }
+    }
   };
 
   fetchIngredients = async (inputText, foodOrDrink) => {
@@ -122,12 +129,16 @@ class SearchBar extends Component {
     }
   };
 
-  handleClick = async (e) => {
+  handleChange = ({ target }) => {
+    const { name, value } = target;
+    this.setState({ [name]: value });
+  };
+
+  handleClick = (e) => {
     e.preventDefault();
     const { inputText, searchFilter } = this.state;
     const { foodOrDrink } = this.props;
     this.fetchFunction(inputText, searchFilter, foodOrDrink);
-    // this.checkToRedirect(json);
   };
 
   render() {

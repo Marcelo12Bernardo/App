@@ -6,6 +6,17 @@ import SearchIcon from './SearchIcon';
 import SearchBar from './SearchBar';
 
 class Header extends Component {
+  headerTitle = () => {
+    const { name } = this.props;
+    if (name === '/meals') {
+      return 'Meals';
+    }
+    if (name === '/drinks') {
+      return 'Drinks';
+    }
+    return name;
+  };
+
   render() {
     const { searchBar } = this.props;
     const { name } = this.props;
@@ -14,7 +25,7 @@ class Header extends Component {
         <header
           data-testid="page-title"
         >
-          {name === '/meals' ? 'Meals' : 'Drinks'}
+          {this.headerTitle()}
         </header>
         <ProfileIcon />
         {name === '/meals' || name === '/drinks' ? <SearchIcon /> : null}
