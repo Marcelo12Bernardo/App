@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { saveFetchAction } from '../Redux/Actions';
 
+const notFound = 'Sorry, we haven\'t found any recipes for these filters.';
+
 class SearchBar extends Component {
   state = {
     inputText: '',
@@ -10,76 +12,127 @@ class SearchBar extends Component {
   };
 
   componentDidUpdate() {
-    const { push, result, foodOrDrink } = this.props;
-    if (foodOrDrink === '/meals' && result?.length === 1) {
-      push(`/meals/${result[0].idMeal}`);
-    }
-    if (foodOrDrink === '/drinks' && result?.length === 1) {
-      push(`/drinks/${result[0].idDrink}`);
-    }
+    this.checkToRedirect();
   }
 
-  handleChange = ({ target }) => {
-    const { name, value } = target;
-    this.setState({ [name]: value });
+  checkToRedirect = () => {
+    const { push, results } = this.props;
+    if (results.meals || results.drinks) {
+      if (results.meals?.length === 1) {
+        push(`/meals/${results.meals[0].idMeal}`);
+      }
+      if (results.drinks?.length === 1) {
+        push(`/drinks/${results.drinks[0].idDrink}`);
+      }
+    }
   };
 
-  fetchFunction = async (inputText, searchFilter, foodOrDrink) => {
+  fetchIngredients = async (inputText, foodOrDrink) => {
     const { dispatch } = this.props;
     let firstFetch;
     let json;
-    switch (searchFilter) {
-    case 'ingredient':
+    try {
       if (foodOrDrink === '/meals') {
         firstFetch = await fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?i=${inputText}`);
         json = await firstFetch.json();
-        break;
+        if (json.meals === null) {
+          global.alert(notFound);
+        }
       } else {
         firstFetch = await
         fetch(`https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=${inputText}`);
         json = await firstFetch.json();
-        break;
+        if (json.drinks === null) {
+          global.alert(notFound);
+        }
       }
-    case 'name':
+    } catch (error) {
+      global.alert(notFound);
+    }
+    dispatch(saveFetchAction(json));
+  };
+
+  fetchNames = async (inputText, foodOrDrink) => {
+    const { dispatch } = this.props;
+    let firstFetch;
+    let json;
+    try {
       if (foodOrDrink === '/meals') {
         firstFetch = await fetch(`https://www.themealdb.com/api/json/v1/1/search.php?s=${inputText}`);
         json = await firstFetch.json();
-        break;
+        if (json.meals === null) {
+          global.alert(notFound);
+        }
       } else {
         firstFetch = await
         fetch(`https://www.thecocktaildb.com/api/json/v1/1/search.php?s=${inputText}`);
         json = await firstFetch.json();
-        break;
+        if (json.drinks === null) {
+          global.alert(notFound);
+        }
       }
+    } catch (error) {
+      global.alert(notFound);
+    }
+    dispatch(saveFetchAction(json));
+  };
+
+  fetchFirstLetter = async (inputText, foodOrDrink) => {
+    const { dispatch } = this.props;
+    let firstFetch;
+    let json;
+    try {
+      if (foodOrDrink === '/meals') {
+        firstFetch = await fetch(`https://www.themealdb.com/api/json/v1/1/search.php?f=${inputText}`);
+        json = await firstFetch.json();
+        if (json.meals === null) {
+          global.alert(notFound);
+        }
+      } else {
+        firstFetch = await
+        fetch(`https://www.thecocktaildb.com/api/json/v1/1/search.php?f=${inputText}`);
+        json = await firstFetch.json();
+        if (json.drinks === null) {
+          global.alert(notFound);
+        }
+      }
+    } catch (error) {
+      global.alert(notFound);
+    }
+    dispatch(saveFetchAction(json));
+  };
+
+  fetchFunction = async (inputText, searchFilter, foodOrDrink) => {
+    switch (searchFilter) {
+    case 'ingredient':
+      await this.fetchIngredients(inputText, foodOrDrink);
+      break;
+    case 'name':
+      await this.fetchNames(inputText, foodOrDrink);
+      break;
     case 'firstLetter':
       if (inputText.length > 1) {
         global
           .alert('Your search must have only 1 (one) character');
         break;
       }
-      if (foodOrDrink === '/meals') {
-        firstFetch = await fetch(`https://www.themealdb.com/api/json/v1/1/search.php?f=${inputText}`);
-        json = await firstFetch.json();
-        break;
-      } else {
-        firstFetch = await
-        fetch(`https://www.thecocktaildb.com/api/json/v1/1/search.php?f=${inputText}`);
-        json = firstFetch.json();
-        break;
-      }
+      await this.fetchFirstLetter(inputText, foodOrDrink);
+      break;
     default:
       break;
     }
-    dispatch(saveFetchAction(json));
-    // return json;
   };
 
-  handleClick = async (e) => {
+  handleChange = ({ target }) => {
+    const { name, value } = target;
+    this.setState({ [name]: value });
+  };
+
+  handleClick = (e) => {
     e.preventDefault();
     const { inputText, searchFilter } = this.state;
     const { foodOrDrink } = this.props;
     this.fetchFunction(inputText, searchFilter, foodOrDrink);
-    // this.checkToRedirect(json);
   };
 
   render() {
@@ -148,13 +201,13 @@ class SearchBar extends Component {
 
 SearchBar.propTypes = {
   push: PropTypes.func.isRequired,
-  result: PropTypes.instanceOf(Array).isRequired,
+  results: PropTypes.instanceOf(Object).isRequired,
   foodOrDrink: PropTypes.string.isRequired,
   dispatch: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
-  result: state.saveFetchReducer.result,
+  results: state.saveFetchReducer.result,
   push: state.pushReducer.pushFunction,
 });
 
