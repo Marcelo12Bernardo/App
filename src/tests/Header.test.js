@@ -65,10 +65,10 @@ describe('Testa o componente Header', () => {
     userEvent.type(passInput, passUser);
     userEvent.click(button);
 
-    renderWithRouterAndRedux('/drinks');
-    const btnDrnks = screen.getByTestId('drinks-bottom-btn');
-    userEvent.click(btnDrnks.parentNode);
     renderWithRouterAndRedux('/meals');
+    const btnDrinks = screen.getByTestId('drinks-bottom-btn');
+    userEvent.click(btnDrinks.parentNode);
+    renderWithRouterAndRedux('/drinks');
     const iconPerfil = screen.getByTestId(idIconPerfil);
     const iconSearch = screen.getByTestId(idIconSearch);
     const pageTitle = screen.getByTestId(idPageTitle);
@@ -77,11 +77,90 @@ describe('Testa o componente Header', () => {
     expect(pageTitle.innerHTML).toEqual('Drinks');
   });
 
-  // Rota "/meals/:id-da-receita": não possui header
-  // Rota "/drinks/:id-da-receita": não possui header
-  // Rota "/meals/:id-da-receita/in-progress": não possui header
-  // Rota "/drinks/:id-da-receita/in-progress": não possui header
-  // Rota "/profile": possui o header com o título "Profile" e o ícone de perfil, mas sem o ícone de pesquisa
-  // Rota "/done-recipes": possui o header com o título "Done Recipes" e o ícone de perfil, mas sem o ícone de pesquisa
-  // Rota "/favorite-recipes": possui o header com o título "Favorite Recipes" e o ícone de perfil, mas sem o ícone de pesquisa
+  it('Rota "/profile": possui o header com o título "Profile" e o ícone de perfil, mas sem o ícone de pesquisa', () => {
+    renderWithRouterAndRedux(<App />);
+    const emailInput = screen.getByTestId(idEmail);
+    const passInput = screen.getByTestId(idPassword);
+    const button = screen.getByRole('button');
+    userEvent.type(emailInput, emailUser);
+    userEvent.type(passInput, passUser);
+    userEvent.click(button);
+
+    renderWithRouterAndRedux('/meals');
+    const btnProfile = screen.getByTestId('profile-top-btn');
+    userEvent.click(btnProfile.parentNode);
+    renderWithRouterAndRedux('/profile');
+    const iconPerfil = screen.getByTestId(idIconPerfil);
+    const iconSearch = screen.queryByTestId(idIconSearch);
+    const pageTitle = screen.getByTestId(idPageTitle);
+    expect(iconPerfil).toBeInTheDocument();
+    expect(iconSearch).toBeNull();
+    expect(pageTitle.innerHTML).toEqual('Profile');
+  });
+  // Aindanão passam pois as telas não estão prontas
+  it('Rota "/done-recipes": possui o header com o título "Done Recipes" e o ícone de perfil, mas sem o ícone de pesquisa', () => {
+    renderWithRouterAndRedux(<App />);
+    const emailInput = screen.getByTestId(idEmail);
+    const passInput = screen.getByTestId(idPassword);
+    const button = screen.getByRole('button');
+    userEvent.type(emailInput, emailUser);
+    userEvent.type(passInput, passUser);
+    userEvent.click(button);
+
+    renderWithRouterAndRedux('/meals');
+    // const btnProfile = screen.getByTestId('profile-top-btn');
+    // userEvent.click(btnProfile.parentNode);
+    renderWithRouterAndRedux('/done-recipes');
+    const iconPerfil = screen.getByTestId(idIconPerfil);
+    const iconSearch = screen.queryByTestId(idIconSearch);
+    const pageTitle = screen.getByTestId(idPageTitle);
+    expect(iconPerfil).toBeInTheDocument();
+    expect(iconSearch).toBeNull();
+    expect(pageTitle.innerHTML).toEqual('Done Recipes');
+  });
+
+  it('Rota "/favorite-recipes": possui o header com o título "Favorite Recipes" e o ícone de perfil, mas sem o ícone de pesquisa', () => {
+    renderWithRouterAndRedux(<App />);
+    const emailInput = screen.getByTestId(idEmail);
+    const passInput = screen.getByTestId(idPassword);
+    const button = screen.getByRole('button');
+    userEvent.type(emailInput, emailUser);
+    userEvent.type(passInput, passUser);
+    userEvent.click(button);
+
+    renderWithRouterAndRedux('/meals');
+    // const btnProfile = screen.getByTestId('profile-top-btn');
+    // userEvent.click(btnProfile.parentNode);
+    renderWithRouterAndRedux('/favorite-recipes');
+    const iconPerfil = screen.getByTestId(idIconPerfil);
+    const iconSearch = screen.queryByTestId(idIconSearch);
+    const pageTitle = screen.getByTestId(idPageTitle);
+    expect(iconPerfil).toBeInTheDocument();
+    expect(iconSearch).toBeNull();
+    expect(pageTitle.innerHTML).toEqual('Done Recipes');
+  });
+
+  it('Rota "/meals/:id-da-receita": não possui header', () => {
+    renderWithRouterAndRedux('/meals/52977');
+    const header = screen.queryByRole('header');
+    expect(header).toBeNull();
+  });
+
+  it('Rota "/drinks/:id-da-receita": não possui header', () => {
+    renderWithRouterAndRedux('/drinks/15997');
+    const header = screen.queryByRole('header');
+    expect(header).toBeNull();
+  });
+
+  it('Rota "/meals/:id-da-receita/in-progress": não possui header', () => {
+    renderWithRouterAndRedux('/meals/53065/in-progress');
+    const header = screen.queryByRole('header');
+    expect(header).toBeNull();
+  });
+
+  it('Rota "/drinks/:id-da-receita/in-progress": não possui header', () => {
+    renderWithRouterAndRedux('/drinks/17222/in-progress');
+    const header = screen.queryByRole('header');
+    expect(header).toBeNull();
+  });
 });
