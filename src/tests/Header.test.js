@@ -1,16 +1,87 @@
 import React from 'react';
 import { screen } from '@testing-library/react';
-import Recipes from '../Pages/Recipes';
+import userEvent from '@testing-library/user-event';
+// import Recipes from '../Pages/Recipes';
+import App from '../App';
 import renderWithRouterAndRedux from './renderWithRouterAndRedux';
 
 describe('Testa o componente Header', () => {
+  const idEmail = 'email-input';
+  const idPassword = 'password-input';
+  const idIconPerfil = 'profile-top-btn';
+  const idIconSearch = 'search-top-btn';
+  const idPageTitle = 'page-title';
+  const emailUser = 'usuario@gmail.com';
+  const passUser = 'user1234';
+
   it('Verifica se o header possui todos elementos', () => {
-    renderWithRouterAndRedux(<Recipes />);
-    const iconPerfil = screen.getByTestId('profile-top-btn');
-    const iconSearch = screen.getByTestId('search-top-btn');
-    const pageTitle = screen.getByTestId('page-title');
+    renderWithRouterAndRedux(<App />);
+    const emailInput = screen.getByTestId(idEmail);
+    const passInput = screen.getByTestId(idPassword);
+    const button = screen.getByRole('button');
+    userEvent.type(emailInput, emailUser);
+    userEvent.type(passInput, passUser);
+    userEvent.click(button);
+
+    renderWithRouterAndRedux('/meals');
+    const iconPerfil = screen.getByTestId(idIconPerfil);
+    const iconSearch = screen.getByTestId(idIconSearch);
+    const pageTitle = screen.getByTestId(idPageTitle);
     expect(iconPerfil).toBeInTheDocument();
     expect(iconSearch).toBeInTheDocument();
     expect(pageTitle).toBeInTheDocument();
   });
+
+  it('Verifica se Rota "/": não possui header', () => {
+    renderWithRouterAndRedux('/');
+    const header = screen.queryByRole('header');
+    expect(header).toBeNull();
+  });
+
+  it('Rota "/meals": possui o header com o título "Meals" e os ícones de perfil e pesquisa', () => {
+    renderWithRouterAndRedux(<App />);
+    const emailInput = screen.getByTestId(idEmail);
+    const passInput = screen.getByTestId(idPassword);
+    const button = screen.getByRole('button');
+    userEvent.type(emailInput, emailUser);
+    userEvent.type(passInput, passUser);
+    userEvent.click(button);
+
+    renderWithRouterAndRedux('/meals');
+    const iconPerfil = screen.getByTestId(idIconPerfil);
+    const iconSearch = screen.getByTestId(idIconSearch);
+    const pageTitle = screen.getByTestId(idPageTitle);
+    expect(iconPerfil).toBeInTheDocument();
+    expect(iconSearch).toBeInTheDocument();
+    expect(pageTitle.innerHTML).toEqual('Meals');
+  });
+
+  it('Rota "/drinks": possui o header com o título "Drinks" e os ícones de perfil e pesquisa', () => {
+    renderWithRouterAndRedux(<App />);
+    const emailInput = screen.getByTestId(idEmail);
+    const passInput = screen.getByTestId(idPassword);
+    const button = screen.getByRole('button');
+    userEvent.type(emailInput, emailUser);
+    userEvent.type(passInput, passUser);
+    userEvent.click(button);
+
+    renderWithRouterAndRedux('/drinks');
+    const btnDrnks = screen.getByTestId('drinks-bottom-btn');
+    userEvent.click(btnDrnks.parentNode);
+    renderWithRouterAndRedux('/meals');
+    const iconPerfil = screen.getByTestId(idIconPerfil);
+    const iconSearch = screen.getByTestId(idIconSearch);
+    const pageTitle = screen.getByTestId(idPageTitle);
+    expect(iconPerfil).toBeInTheDocument();
+    expect(iconSearch).toBeInTheDocument();
+    expect(pageTitle.innerHTML).toEqual('Drinks');
+  });
+
+  // Rota "/meals/:id-da-receita": não possui header
+  // Rota "/drinks/:id-da-receita": não possui header
+  // Rota "/meals/:id-da-receita/in-progress": não possui header
+  // Rota "/drinks/:id-da-receita/in-progress": não possui header
+  // Rota "/profile": possui o header com o título "Profile" e o ícone de perfil, mas sem o ícone de pesquisa
+  // Rota "/done-recipes": possui o header com o título "Done Recipes" e o ícone de perfil, mas sem o ícone de pesquisa
+  // Rota "/favorite-recipes": possui o header com o título "Favorite Recipes" e o ícone de perfil, mas sem o ícone de pesquisa
 });
