@@ -6,6 +6,7 @@ import { saveFetchAction } from '../Redux/Actions';
 class Drinks extends Component {
   componentDidMount() {
     this.fetchDrinks();
+    this.fetchCategories();
   }
 
   fetchDrinks = async () => {
@@ -15,6 +16,14 @@ class Drinks extends Component {
     dispatch(saveFetchAction(json));
   };
 
+  fetchCategories = async () => {
+    const response = await fetch(
+      'https://www.thecocktaildb.com/api/json/v1/1/list.php?c=list',
+    );
+    const categories = await response.json();
+    console.log(categories);
+  };
+
   render() {
     const { drinks } = this.props;
     return (
@@ -22,6 +31,7 @@ class Drinks extends Component {
         <>
           {drinks.map((drink, index) => (
             <div
+              style={ { marginTop: '20px', padding: '10px' } }
               key={ index }
               data-testid={ `${index}-recipe-card` }
             >
@@ -29,9 +39,11 @@ class Drinks extends Component {
                 data-testid={ `${index}-card-img` }
                 src={ drink.strDrinkThumb }
                 alt={ drink.strDrink }
+                style={ { width: '100px', height: '100px' } }
               />
               <h1
                 data-testid={ `${index}-card-name` }
+                style={ { fontSize: '20px' } }
               >
                 {drink.strDrink}
 

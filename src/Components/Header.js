@@ -21,15 +21,27 @@ class Header extends Component {
     const { searchBar } = this.props;
     const { name } = this.props;
     return (
-      <div>
+      <div
+        style={ {
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+        } }
+      >
+        {this.headerTitle()}
         <header
           data-testid="page-title"
+          style={ {
+            width: '100%',
+            padding: '10px',
+            display: 'flex',
+            justifyContent: 'space-around',
+          } }
         >
-          {this.headerTitle()}
+          {name === '/meals' || name === '/drinks' ? <SearchIcon /> : null}
+          {searchBar && <SearchBar foodOrDrink={ name } /> }
+          <ProfileIcon />
         </header>
-        <ProfileIcon />
-        {name === '/meals' || name === '/drinks' ? <SearchIcon /> : null}
-        {searchBar && <SearchBar foodOrDrink={ name } /> }
       </div>
     );
   }

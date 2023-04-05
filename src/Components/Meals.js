@@ -4,8 +4,13 @@ import { connect } from 'react-redux';
 import { saveFetchAction } from '../Redux/Actions';
 
 class Meals extends Component {
+  // state = {
+  //   data: [],
+  // };
+
   componentDidMount() {
     this.fetchMeals();
+    this.fetchCategories();
   }
 
   fetchMeals = async () => {
@@ -15,13 +20,38 @@ class Meals extends Component {
     dispatch(saveFetchAction(json));
   };
 
+  fetchCategories = async () => {
+    const categoriesQuantity = 5;
+    const response = await fetch('https://www.themealdb.com/api/json/v1/1/list.php?c=list');
+    const categoriesData = await response.json();
+    const categories = categoriesData.meals?.filter(
+      (category, index) => index < categoriesQuantity && category.strCategory,
+    );
+    console.log(categories);
+    // this.setState(
+    //   { data: categories },
+    // );
+  };
+
   render() {
     const { meals } = this.props;
+    // const { data } = this.state;
     return (
       meals ? (
         <>
+          {/* {
+            data.map((categoryName, categoryIndex) => (
+              <button
+                key={ `${categoryName}${categoryIndex}` }
+                data-testid={ `${categoryName}-category-filter` }
+              >
+                { categoryName }
+              </button>
+            ))
+          } */}
           {meals.map((meal, index) => (
             <div
+              style={ { marginTop: '20px', padding: '10px' } }
               key={ index }
               data-testid={ `${index}-recipe-card` }
             >
@@ -29,9 +59,11 @@ class Meals extends Component {
                 data-testid={ `${index}-card-img` }
                 src={ meal.strMealThumb }
                 alt={ meal.strMeal }
+                style={ { width: '100px', height: '100px' } }
               />
               <h1
                 data-testid={ `${index}-card-name` }
+                style={ { fontSize: '20px' } }
               >
                 {meal.strMeal}
 

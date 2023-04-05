@@ -18,7 +18,15 @@ class Recipes extends Component {
     return (
       <div>
         <Header name={ pathname } />
-        {pathname === '/meals' ? <Meals /> : <Drinks />}
+        <div
+          style={ {
+            display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between',
+          } }
+        >
+          {
+            pathname === '/meals' ? <Meals /> : <Drinks />
+          }
+        </div>
         <footer>
           <Footer />
         </footer>
