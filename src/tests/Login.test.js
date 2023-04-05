@@ -1,4 +1,3 @@
-/* eslint-disable sonarjs/no-duplicate-string */
 import React from 'react';
 import { screen, act } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
@@ -6,10 +5,12 @@ import App from '../App';
 import renderWithRouterAndRedux from './renderWithRouterAndRedux';
 
 describe('testes da pagina de login', () => {
+  const idEmail = 'email-input';
+  const idPassword = 'password-input';
   it('Verifica se a pagina é carregada corretamente', () => {
     renderWithRouterAndRedux(<App />);
-    const emailInput = screen.getByTestId('email-input');
-    const passInput = screen.getByTestId('password-input');
+    const emailInput = screen.getByTestId(idEmail);
+    const passInput = screen.getByTestId(idPassword);
     const button = screen.getByRole('button');
 
     expect(emailInput).toBeInTheDocument();
@@ -23,8 +24,8 @@ describe('testes da pagina de login', () => {
   });
   it('Testa se o botão é habilitado ao preencher os campos', async () => {
     renderWithRouterAndRedux(<App />);
-    const emailInput = screen.getByTestId('email-input');
-    const passInput = screen.getByTestId('password-input');
+    const emailInput = screen.getByTestId(idEmail);
+    const passInput = screen.getByTestId(idPassword);
     const button = screen.getByRole('button');
     act(() => {
       userEvent.type(emailInput, 'teste@');
@@ -40,8 +41,8 @@ describe('testes da pagina de login', () => {
 
   it('Testa se ao clicar no botão é redirecionado para a page meals', async () => {
     const { history } = renderWithRouterAndRedux(<App />);
-    const emailInput = screen.getByTestId('email-input');
-    const passInput = screen.getByTestId('password-input');
+    const emailInput = screen.getByTestId(idEmail);
+    const passInput = screen.getByTestId(idPassword);
     const button = screen.getByRole('button');
     userEvent.type(emailInput, 'usuario@gmail.com');
     userEvent.type(passInput, 'user1234');
