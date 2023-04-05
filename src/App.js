@@ -6,7 +6,7 @@ import Favorites from './Pages/Favorites';
 import Profile from './Pages/Profile';
 import DoneRecipes from './Pages/DoneRecipes';
 import MealInProgress from './Components/MealInProgress';
-import DrinkInProgress from './Components/DrinkInProgress';
+// import DrinkInProgress from './Components/DrinkInProgress';
 import Recipes from './Pages/Recipes';
 import RecipeDetails from './Pages/RecipeDetails';
 
@@ -19,21 +19,17 @@ function App() {
         <Route exact path="/drinks" component={ Recipes } />
         <Route
           exact
-          path="/meals/:id-da-receita"
-          render={ (props) => (<RecipeDetails
-            { ...props }
-          />) }
+          path="/meals/:id"
+          component={ RecipeDetails }
         />
         <Route
           exact
-          path="/drinks/:id-da-receita"
-          render={ (props) => (<RecipeDetails
-            { ...props }
-          />) }
+          path="/drinks/:id"
+          component={ RecipeDetails }
         />
         <Route
           exact
-          path="/meals/:id-da-receita/in-progress"
+          path="/meals/:id/in-progress"
           component={ MealInProgress }
         />
         <Route path="/profile" component={ Profile } />
@@ -66,14 +62,3 @@ function App() {
 }
 
 export default App;
-
-// Tela de login: /;
-// Tela principal de receitas de comidas: /meals;
-// Tela principal de receitas de bebidas: /drinks;
-// Tela de detalhes de uma receita de comida: /meals/:id-da-receita;
-// Tela de detalhes de uma receita de bebida: /drinks/:id-da-receita;
-// Tela de receita em progresso de comida: /meals/:id-da-receita/in-progress;
-// Tela de receita em progresso de bebida: /drinks/:id-da-receita/in-progress;
-// Tela de perfil: /profile;
-// Tela de receitas feitas: /done-recipes;
-// Tela de receitas favoritas: /favorite-recipes.
