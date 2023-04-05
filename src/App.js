@@ -15,22 +15,23 @@ function App() {
     <div>
       <Switch>
         <Route exact path="/" component={ Login } />
-        <Route exact path="/meals" component={ Recipes } />
-        <Route exact path="/drinks" component={ Recipes } />
-        <Route exact path="/profile" component={ Profile } />
-        <Route exact path="/done-recipes" component={ DoneRecipes } />
-        <Route exact path="/favorite-recipes" component={ Favorites } />
-        <Route path="/meals/:id-da-receita" component={ RecipeDetails } />
+        <Route path="/favorite-recipes" component={ DrinkInProgress } />
         <Route
+          exact
           path="/drinks/:id-da-receita"
           component={ RecipeDetails }
         />
+        <Route exact path="/meals/:id-da-receita" component={ RecipeDetails } />
         <Route
           exact
           path="/meals/:id-da-receita/in-progress"
           component={ MealInProgress }
         />
-        <Route exact path="/favorite-recipes" component={ DrinkInProgress } />
+        <Route exact path="/meals" component={ Recipes } />
+        <Route exact path="/drinks" component={ Recipes } />
+        <Route path="/profile" component={ Profile } />
+        <Route path="/done-recipes" component={ DoneRecipes } />
+        <Route path="/favorite-recipes" component={ Favorites } />
       </Switch>
     </div>
   );
