@@ -1,8 +1,20 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { saveFetchAction } from '../Redux/Actions';
 
 class Meals extends Component {
+  componentDidMount() {
+    this.fetchMeals();
+  }
+
+  fetchMeals = async () => {
+    const { dispatch } = this.props;
+    const firstfetch = await fetch('https://www.themealdb.com/api/json/v1/1/search.php?s=');
+    const json = await firstfetch.json();
+    dispatch(saveFetchAction(json));
+  };
+
   render() {
     const { meals } = this.props;
     return (
@@ -37,6 +49,7 @@ const mapStateToProps = (state) => ({
 });
 
 Meals.propTypes = {
+  dispatch: PropTypes.func.isRequired,
   meals: PropTypes.instanceOf(Array).isRequired,
 };
 
