@@ -21,18 +21,6 @@ class SearchBar extends Component {
     }
   }
 
-  checkToRedirect = () => {
-    const { push, results } = this.props;
-    if (results.meals || results.drinks) {
-      if (results.meals?.length === 1) {
-        push(`/meals/${results.meals[0].idMeal}`);
-      }
-      if (results.drinks?.length === 1) {
-        push(`/drinks/${results.drinks[0].idDrink}`);
-      }
-    }
-  };
-
   fetchIngredients = async (inputText, foodOrDrink) => {
     const { dispatch } = this.props;
     let firstFetch;
