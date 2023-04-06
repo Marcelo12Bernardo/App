@@ -101,21 +101,22 @@ export default class Meal extends Component {
                 <motion.div
                   className="inner"
                   drag="x"
+                  dragConstraints={ { right: 0, left: -764 } }
                 >
                   {carrousel.map((drink, index) => (
                     <motion.div
                       className="iten"
                       data-testid={ `${index}-recommendation-card` }
-                      key={ drink.idDrink }
+                      key={ drink.idDrink + index }
                     >
+                      <p data-testid={ `${index}-recommendation-title` }>
+                        {drink.strDrink}
+                      </p>
                       <img
                         // data-testid={ `${index}-recommendation-title` }
                         src={ drink.strDrinkThumb }
                         alt={ drink.idDrink }
                       />
-                      <p data-testid={ `${index}-recommendation-title` }>
-                        {iten.strDrink}
-                      </p>
 
                     </motion.div>
                   ))}
