@@ -4,13 +4,27 @@ import { connect } from 'react-redux';
 import { saveFetchAction } from '../Redux/Actions';
 
 class Meals extends Component {
-  // state = {
-  //   data: [],
-  // };
+  state = {
+    categoriesData: [],
+    recipesByCategory: [],
+  };
 
   componentDidMount() {
     this.fetchMeals();
     this.fetchCategories();
+    this.handleRenderRecipes();
+  }
+
+  componentDidUpdate(prevProps) {
+    const { meals } = this.props;
+    if (prevProps.meals !== meals) {
+      this.setState({ recipesByCategory: meals });
+    }
+  }
+
+  handleRenderRecipes() {
+    const { meals } = this.props;
+    this.setState({ recipesByCategory: meals });
   }
 
   fetchMeals = async () => {
@@ -23,55 +37,89 @@ class Meals extends Component {
   fetchCategories = async () => {
     const categoriesQuantity = 5;
     const response = await fetch('https://www.themealdb.com/api/json/v1/1/list.php?c=list');
-    const categoriesData = await response.json();
-    const categories = categoriesData.meals?.filter(
-      (category, index) => index < categoriesQuantity && category.strCategory,
+    const data = await response.json();
+    const categories = data.meals?.filter(
+      (category, index) => index < categoriesQuantity && category,
     );
-    console.log(categories);
-    // this.setState(
-    //   { data: categories },
-    // );
+    const categoryNames = categories.map((item) => item.strCategory);
+    this.setState(
+      { categoriesData: categoryNames },
+    );
+  };
+
+  handleSearchByCategory = async (categoryName) => {
+    const categoriesQuantity = 12;
+    const response = await fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?c=${categoryName}`);
+    const recipesData = await response.json();
+    const filteredRecipes = recipesData.meals?.filter(
+      (recipe, index) => index < categoriesQuantity && recipe,
+    );
+    this.setState(
+      { recipesByCategory: filteredRecipes },
+    );
   };
 
   render() {
-    const { meals } = this.props;
-    // const { data } = this.state;
+    const { categoriesData, recipesByCategory } = this.state;
+
     return (
-      meals ? (
-        <>
-          {/* {
-            data.map((categoryName, categoryIndex) => (
+      <>
+        <div
+          style={ {
+            display: 'flex', justifyContent: 'center', gap: '2px',
+          } }
+        >
+          {
+            categoriesData && categoriesData.map((categoryName, categoryIndex) => (
               <button
                 key={ `${categoryName}${categoryIndex}` }
                 data-testid={ `${categoryName}-category-filter` }
+                onClick={ () => this.handleSearchByCategory(categoryName) }
               >
                 { categoryName }
               </button>
             ))
-          } */}
-          {meals.map((meal, index) => (
-            <div
-              style={ { marginTop: '20px', padding: '10px' } }
-              key={ index }
-              data-testid={ `${index}-recipe-card` }
-            >
-              <img
-                data-testid={ `${index}-card-img` }
-                src={ meal.strMealThumb }
-                alt={ meal.strMeal }
-                style={ { width: '100px', height: '100px' } }
-              />
-              <h1
-                data-testid={ `${index}-card-name` }
-                style={ { fontSize: '20px' } }
-              >
-                {meal.strMeal}
+          }
+          <button
+            data-testid="All-category-filter"
+            onClick={ () => this.handleRenderRecipes() }
+          >
+            All
+          </button>
+        </div>
+        <div
+          style={ {
+            display: 'flex',
+            flexWrap: 'wrap',
+            justifyContent: 'center',
+            marginTop: '20px',
+          } }
+        >
+          {
+            recipesByCategory
+              && recipesByCategory.map((recipe, index) => (
+                <div
+                  key={ index }
+                  data-testid={ `${index}-recipe-card` }
+                >
+                  <img
+                    data-testid={ `${index}-card-img` }
+                    src={ recipe.strMealThumb }
+                    alt={ recipe.strMeal }
+                    style={ { width: '100px', height: '100px', marginRight: '10px' } }
+                  />
+                  <div
+                    data-testid={ `${index}-card-name` }
+                    style={ { fontSize: '10px' } }
+                  >
+                    {recipe.strMeal}
 
-              </h1>
-            </div>
-          ))}
-        </>
-      ) : null
+                  </div>
+                </div>
+              ))
+          }
+        </div>
+      </>
     );
   }
 }

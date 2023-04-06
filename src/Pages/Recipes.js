@@ -18,11 +18,7 @@ class Recipes extends Component {
     return (
       <div>
         <Header name={ pathname } />
-        <div
-          style={ {
-            display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between',
-          } }
-        >
+        <div>
           {
             pathname === '/meals' ? <Meals /> : <Drinks />
           }
