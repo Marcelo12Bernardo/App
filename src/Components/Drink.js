@@ -1,5 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { motion } from 'framer-motion';
+import '../App.css';
+
+const maxCarrousel = 6;
 
 export default class Drink extends Component {
   state = {
@@ -35,7 +39,7 @@ export default class Drink extends Component {
   fetchCarrousel = async () => {
     const firstFetch = await fetch('https://www.themealdb.com/api/json/v1/1/search.php?s=');
     const json = await firstFetch.json();
-    this.setState({ carrousel: json.meals });
+    this.setState({ carrousel: json.meals.slice(0, maxCarrousel) });
   };
 
   fetchDrink = async () => {
@@ -83,9 +87,41 @@ export default class Drink extends Component {
             >
               {iten.strInstructions}
             </p>
-            {loading ? null : carrousel.length }
-            {/* Código acima onde deverá entrar o carrosel,
-             deixei dessa maneira apenas para passar sem erro de lint */}
+            <div className="carDiv">
+              <motion.div className="carrousel" whileDrag={ { cursor: 'grabbing' } }>
+                <motion.div
+                  className="inner"
+                  drag="x"
+                  dragConstraints={ { right: 0, left: -764 } }
+                >
+                  {carrousel.map((meal, index) => (
+                    <motion.div
+                      className="iten"
+                      data-testid={ `${index}-recommendation-card` }
+                      key={ meal.idDrink + index + meal.strMeal }
+                    >
+                      <p data-testid={ `${index}-recommendation-title` }>
+                        {meal.strMeal}
+                      </p>
+                      <img
+                        // data-testid={ `${index}-recommendation-title` }
+                        src={ meal.strMealThumb }
+                        alt={ meal.idMeal }
+                      />
+
+                    </motion.div>
+                  ))}
+                </motion.div>
+              </motion.div>
+            </div>
+            <br />
+            <button
+              className="fixed"
+              data-testid="start-recipe-btn"
+            >
+              Start Recipe
+
+            </button>
           </div>
         ))
       )
