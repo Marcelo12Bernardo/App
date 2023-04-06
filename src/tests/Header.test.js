@@ -1,7 +1,6 @@
 import React from 'react';
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-// import Recipes from '../Pages/Recipes';
 import App from '../App';
 import renderWithRouterAndRedux from './renderWithRouterAndRedux';
 
@@ -30,6 +29,22 @@ describe('Testa o componente Header', () => {
     expect(iconPerfil).toBeInTheDocument();
     expect(iconSearch).toBeInTheDocument();
     expect(pageTitle).toBeInTheDocument();
+  });
+
+  it('Testa se o botão profile leva a rota /profile', async () => {
+    const { history } = renderWithRouterAndRedux(<App />);
+    const emailInput = screen.getByTestId(idEmail);
+    const passInput = screen.getByTestId(idPassword);
+    const button = screen.getByRole('button');
+    userEvent.type(emailInput, emailUser);
+    userEvent.type(passInput, passUser);
+    userEvent.click(button);
+    renderWithRouterAndRedux('/meals');
+
+    const iconSearch = screen.getByTestId(idIconSearch);
+    userEvent.click(iconSearch);
+    const { pathname } = history.location;
+    expect(pathname).toBe('/profile');
   });
 
   it('Verifica se Rota "/": não possui header', () => {
