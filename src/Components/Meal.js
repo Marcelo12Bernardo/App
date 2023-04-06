@@ -121,8 +121,15 @@ export default class Meal extends Component {
                     </motion.div>
                   ))}
                 </motion.div>
-
               </motion.div>
+              <br />
+              <button
+                className="fixed"
+                data-testid="start-recipe-btn"
+              >
+                Start Recipe
+
+              </button>
             </div>
           </>
         ))

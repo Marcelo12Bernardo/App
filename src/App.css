@@ -1,9 +1,9 @@
 .carDiv {
-  margin: auto auto;
-  max-width: 360px;
-  display: flex;
   align-items: center;
+  display: flex;
   justify-content: center;
+  margin: auto;
+  max-width: 360px;
 }
 
 .inner {
@@ -18,13 +18,25 @@
 }
 
 .iten img {
-  width: 80%;
-  height: 70%;
   border-radius: 10px;
+  height: 70%;
   pointer-events: none;
+  width: 80%;
 }
 
 .carrousel {
   cursor: grab;
   overflow: hidden;
+}
+
+.fixed {
+  background-color: black;
+  border: none;
+  border-radius: 5px;
+  bottom: 0;
+  color: white;
+  cursor: pointer;
+  margin: 5px;
+  position: fixed;
+  right: 170px;
 }
