@@ -1,12 +1,116 @@
 import React, { Component } from 'react';
+// import PropTypes from 'prop-types';
 import Header from '../Components/Header';
 
+const copy = require('clipboard-copy');
+
 export default class DoneRecipes extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      linkCopied: false,
+    };
+  }
+
   render() {
+    // const { match: { url } } = this.props;
+    // localStorage.setItem('doneRecipes', JSON.stringify([
+    //   {
+    //     id: '52771',
+    //     type: 'meal',
+    //     nationality: 'Italian',
+    //     category: 'Vegetarian',
+    //     alcoholicOrNot: '',
+    //     name: 'Spicy Arrabiata Penne',
+    //     image: 'https://www.themealdb.com/images/media/meals/ustsqw1468250014.jpg',
+    //     doneDate: '23/06/2020',
+    //     tags: ['Pasta', 'Curry'],
+    //   }]));
+
+    const json = localStorage.getItem('doneRecipes');
+    const doneRecipes = JSON.parse(json) || [];
+    const { linkCopied } = this.state;
     return (
       <div>
         <Header name="Done Recipes" />
+        <button data-testid="filter-by-all-btn">All</button>
+        <button data-testid="filter-by-meal-btn">Meals</button>
+        <button data-testid="filter-by-drink-btn">Drinks</button>
+        {doneRecipes
+          && doneRecipes.map(
+            (
+              {
+                type,
+                category,
+                name,
+                image,
+                doneDate,
+                tags,
+                nationality,
+                alcoholicOrNot,
+                id,
+              },
+              index,
+            ) => (
+              <div key={ index }>
+                <img
+                  data-testid={ `${index}-horizontal-image` }
+                  src={ image }
+                  alt={ name }
+                />
+                <p data-testid={ `${index}-horizontal-top-text` }>{category}</p>
+                {type === 'meal' ? (
+                  <div>
+                    <p data-testid={ `${index}-horizontal-top-text` }>
+                      {`${nationality} - ${category}`}
+                    </p>
+                    <p data-testid={ `${index}-${tags[0]}-horizontal-tag` }>
+                      {tags[0]}
+                    </p>
+                    <p data-testid={ `${index}-${tags[1]}-horizontal-tag` }>
+                      {tags[1]}
+                    </p>
+                  </div>
+                ) : (
+                  <p data-testid={ `${index}-horizontal-top-text` }>
+                    {alcoholicOrNot}
+                  </p>
+                )}
+                <p data-testid={ `${index}-horizontal-name` }>{name}</p>
+
+                <p data-testid={ `${index}-horizontal-done-date` }>{doneDate}</p>
+                <button
+                  data-testid={ `${index}-horizontal-share-btn` }
+                  src="../images/shareIcon.svg"
+                  onClick={ () => {
+                    copy(`http://localhost:3000/meals/${id}`);
+                    this.setState({ linkCopied: true });
+                  } }
+                >
+                  Share
+                </button>
+                {linkCopied && <p>Link copied!</p>}
+
+                {/* {tags
+                  && tags.map(
+                    (elem, indexTag) => indexTag > 2 && (
+                      <p
+                        key={ indexTag }
+                        data-testid={ `${index}-${elem}-horizontal-tag` }
+                      >
+                      </p>
+                    ),
+                  )} */}
+              </div>
+            ),
+          )}
       </div>
     );
   }
 }
+
+// DoneRecipes.propTypes = {
+//   match: PropTypes.shape({
+//     url: PropTypes.string,
+//   }).isRequired,
+// };

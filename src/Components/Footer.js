@@ -11,9 +11,15 @@ class Footer extends Component {
     return (
       <div
         data-testid="footer"
-        style={ { bottom: 0, position: 'fixed' } }
+        style={ {
+          bottom: 0,
+          position: 'fixed',
+          width: '100%',
+          padding: '10px',
+          display: 'flex',
+          justifyContent: 'space-around',
+        } }
       >
-        Footer
         <button
           type="button"
           onClick={ () => redirect('/drinks') }

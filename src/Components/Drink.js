@@ -63,7 +63,6 @@ class Drink extends Component {
     this.setState({ drink: json.drinks }, () => {
       this.gettingIngredients(json.drinks);
     });
-    console.log(json.drinks);
     const fRD = {
       id: json.drinks[0].idDrink,
       type: 'drink',
