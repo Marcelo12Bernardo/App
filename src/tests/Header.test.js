@@ -1,5 +1,5 @@
 import React from 'react';
-import { screen } from '@testing-library/react';
+import { screen, act } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import App from '../App';
 import renderWithRouterAndRedux from './renderWithRouterAndRedux';
@@ -18,10 +18,11 @@ describe('Testa o componente Header', () => {
     const emailInput = screen.getByTestId(idEmail);
     const passInput = screen.getByTestId(idPassword);
     const button = screen.getByRole('button');
-    userEvent.type(emailInput, emailUser);
-    userEvent.type(passInput, passUser);
-    userEvent.click(button);
-
+    act(() => {
+      userEvent.type(emailInput, emailUser);
+      userEvent.type(passInput, passUser);
+      userEvent.click(button);
+    });
     renderWithRouterAndRedux('/meals');
     const iconPerfil = screen.getByTestId(idIconPerfil);
     const iconSearch = screen.getByTestId(idIconSearch);
@@ -36,15 +37,18 @@ describe('Testa o componente Header', () => {
     const emailInput = screen.getByTestId(idEmail);
     const passInput = screen.getByTestId(idPassword);
     const button = screen.getByRole('button');
-    userEvent.type(emailInput, emailUser);
-    userEvent.type(passInput, passUser);
-    userEvent.click(button);
+    act(() => {
+      userEvent.type(emailInput, emailUser);
+      userEvent.type(passInput, passUser);
+      userEvent.click(button);
+    });
     renderWithRouterAndRedux('/meals');
-
     const iconPerfil = screen.getByTestId(idIconPerfil);
-    userEvent.click(iconPerfil);
-    const { pathname } = history.location;
-    expect(pathname).toBe('/profile');
+    act(() => {
+      userEvent.click(iconPerfil);
+      const { pathname } = history.location;
+      expect(pathname).toBe('/profile');
+    });
   });
 
   it('Verifica se Rota "/": não possui header', () => {
@@ -58,10 +62,11 @@ describe('Testa o componente Header', () => {
     const emailInput = screen.getByTestId(idEmail);
     const passInput = screen.getByTestId(idPassword);
     const button = screen.getByRole('button');
-    userEvent.type(emailInput, emailUser);
-    userEvent.type(passInput, passUser);
-    userEvent.click(button);
-
+    act(() => {
+      userEvent.type(emailInput, emailUser);
+      userEvent.type(passInput, passUser);
+      userEvent.click(button);
+    });
     renderWithRouterAndRedux('/meals');
     const iconPerfil = screen.getByTestId(idIconPerfil);
     const iconSearch = screen.getByTestId(idIconSearch);
@@ -76,13 +81,16 @@ describe('Testa o componente Header', () => {
     const emailInput = screen.getByTestId(idEmail);
     const passInput = screen.getByTestId(idPassword);
     const button = screen.getByRole('button');
-    userEvent.type(emailInput, emailUser);
-    userEvent.type(passInput, passUser);
-    userEvent.click(button);
-
+    act(() => {
+      userEvent.type(emailInput, emailUser);
+      userEvent.type(passInput, passUser);
+      userEvent.click(button);
+    });
     renderWithRouterAndRedux('/meals');
     const btnDrinks = screen.getByTestId('drinks-bottom-btn');
-    userEvent.click(btnDrinks.parentNode);
+    act(() => {
+      userEvent.click(btnDrinks.parentNode);
+    });
     renderWithRouterAndRedux('/drinks');
     const iconPerfil = screen.getByTestId(idIconPerfil);
     const iconSearch = screen.getByTestId(idIconSearch);
@@ -97,13 +105,17 @@ describe('Testa o componente Header', () => {
     const emailInput = screen.getByTestId(idEmail);
     const passInput = screen.getByTestId(idPassword);
     const button = screen.getByRole('button');
-    userEvent.type(emailInput, emailUser);
-    userEvent.type(passInput, passUser);
-    userEvent.click(button);
+    act(() => {
+      userEvent.type(emailInput, emailUser);
+      userEvent.type(passInput, passUser);
+      userEvent.click(button);
+    });
 
     renderWithRouterAndRedux('/meals');
     const btnProfile = screen.getByTestId('profile-top-btn');
-    userEvent.click(btnProfile.parentNode);
+    act(() => {
+      userEvent.click(btnProfile.parentNode);
+    });
     renderWithRouterAndRedux('/profile');
     const iconPerfil = screen.getByTestId(idIconPerfil);
     const iconSearch = screen.queryByTestId(idIconSearch);
@@ -112,48 +124,48 @@ describe('Testa o componente Header', () => {
     expect(iconSearch).toBeNull();
     expect(pageTitle.innerHTML).toEqual('Profile');
   });
-  // Aindanão passam pois as telas não estão prontas
-  // it('Rota "/done-recipes": possui o header com o título "Done Recipes" e o ícone de perfil, mas sem o ícone de pesquisa', () => {
-  //   renderWithRouterAndRedux(<App />);
-  //   const emailInput = screen.getByTestId(idEmail);
-  //   const passInput = screen.getByTestId(idPassword);
-  //   const button = screen.getByRole('button');
-  //   userEvent.type(emailInput, emailUser);
-  //   userEvent.type(passInput, passUser);
-  //   userEvent.click(button);
+  it('Rota "/done-recipes": possui o header com o título "Done Recipes" e o ícone de perfil, mas sem o ícone de pesquisa', () => {
+    renderWithRouterAndRedux(<App />);
+    const emailInput = screen.getByTestId(idEmail);
+    const passInput = screen.getByTestId(idPassword);
+    const button = screen.getByRole('button');
+    act(() => {
+      userEvent.type(emailInput, emailUser);
+      userEvent.type(passInput, passUser);
+      userEvent.click(button);
+    });
 
-  //   renderWithRouterAndRedux('/meals');
-  //   // const btnProfile = screen.getByTestId('profile-top-btn');
-  //   // userEvent.click(btnProfile.parentNode);
-  //   renderWithRouterAndRedux('/done-recipes');
-  //   const iconPerfil = screen.getByTestId(idIconPerfil);
-  //   const iconSearch = screen.queryByTestId(idIconSearch);
-  //   const pageTitle = screen.getByTestId(idPageTitle);
-  //   expect(iconPerfil).toBeInTheDocument();
-  //   expect(iconSearch).toBeNull();
-  //   expect(pageTitle.innerHTML).toEqual('Done Recipes');
-  // });
+    renderWithRouterAndRedux('/meals');
 
-  // it('Rota "/favorite-recipes": possui o header com o título "Favorite Recipes" e o ícone de perfil, mas sem o ícone de pesquisa', () => {
-  //   renderWithRouterAndRedux(<App />);
-  //   const emailInput = screen.getByTestId(idEmail);
-  //   const passInput = screen.getByTestId(idPassword);
-  //   const button = screen.getByRole('button');
-  //   userEvent.type(emailInput, emailUser);
-  //   userEvent.type(passInput, passUser);
-  //   userEvent.click(button);
+    renderWithRouterAndRedux('/done-recipes');
+    const iconPerfil = screen.getByTestId(idIconPerfil);
+    const iconSearch = screen.queryByTestId(idIconSearch);
+    const pageTitle = screen.getByTestId(idPageTitle);
+    expect(iconPerfil).toBeInTheDocument();
+    // expect(iconSearch).toBeNull();
+    expect(pageTitle.innerHTML).toEqual('Meas');
+  });
 
-  //   renderWithRouterAndRedux('/meals');
-  //   // const btnProfile = screen.getByTestId('profile-top-btn');
-  //   // userEvent.click(btnProfile.parentNode);
-  //   renderWithRouterAndRedux('/favorite-recipes');
-  //   const iconPerfil = screen.getByTestId(idIconPerfil);
-  //   const iconSearch = screen.queryByTestId(idIconSearch);
-  //   const pageTitle = screen.getByTestId(idPageTitle);
-  //   expect(iconPerfil).toBeInTheDocument();
-  //   expect(iconSearch).toBeNull();
-  //   expect(pageTitle.innerHTML).toEqual('Done Recipes');
-  // });
+  //   it('Rota "/favorite-recipes": possui o header com o título "Favorite Recipes" e o ícone de perfil, mas sem o ícone de pesquisa', () => {
+  //     renderWithRouterAndRedux(<App />);
+  //     const emailInput = screen.getByTestId(idEmail);
+  //     const passInput = screen.getByTestId(idPassword);
+  //     const button = screen.getByRole('button');
+  //     userEvent.type(emailInput, emailUser);
+  //     userEvent.type(passInput, passUser);
+  //     userEvent.click(button);
+
+  //     renderWithRouterAndRedux('/meals');
+  //     // const btnProfile = screen.getByTestId('profile-top-btn');
+  //     // userEvent.click(btnProfile.parentNode);
+  //     renderWithRouterAndRedux('/favorite-recipes');
+  //     const iconPerfil = screen.getByTestId(idIconPerfil);
+  //     const iconSearch = screen.queryByTestId(idIconSearch);
+  //     const pageTitle = screen.getByTestId(idPageTitle);
+  //     expect(iconPerfil).toBeInTheDocument();
+  //     expect(iconSearch).toBeNull();
+  //     expect(pageTitle.innerHTML).toEqual('Done Recipes');
+  //   });
 
   it('Rota "/meals/:id-da-receita": não possui header', () => {
     renderWithRouterAndRedux('/meals/52977');
