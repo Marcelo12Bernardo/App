@@ -67,24 +67,28 @@ class Meals extends Component {
       <>
         <div
           style={ {
-            display: 'flex', justifyContent: 'center', gap: '2px',
+            display: 'flex',
+            justifyContent: 'center',
+            gap: '2px',
+            flexDirection: 'column',
           } }
         >
-          {
-            categoriesData && categoriesData.map((categoryName, categoryIndex) => (
+          {categoriesData
+            && categoriesData.map((categoryName, categoryIndex) => (
               <button
                 key={ `${categoryName}${categoryIndex}` }
                 data-testid={ `${categoryName}-category-filter` }
                 onClick={ () => {
-                  this.setState((prevState) => ({ isFilter: !prevState.isFilter }));
+                  this.setState((prevState) => ({
+                    isFilter: !prevState.isFilter,
+                  }));
                   if (isFilter) this.handleRenderRecipes();
                   else this.handleSearchByCategory(categoryName);
                 } }
               >
-                { categoryName }
+                {categoryName}
               </button>
-            ))
-          }
+            ))}
           <button
             data-testid="All-category-filter"
             onClick={ () => this.handleRenderRecipes() }
@@ -101,29 +105,27 @@ class Meals extends Component {
             flexDirection: 'column',
           } }
         >
-          {
-            recipesByCategory
-              && recipesByCategory.map((recipe, index) => (
+          {recipesByCategory
+            && recipesByCategory.map((recipe, index) => (
+              <div key={ index } data-testid={ `${index}-recipe-card` }>
+                <img
+                  data-testid={ `${index}-card-img` }
+                  src={ recipe.strMealThumb }
+                  alt={ recipe.strMeal }
+                  style={ {
+                    width: '100px',
+                    height: '100px',
+                    marginRight: '10px',
+                  } }
+                />
                 <div
-                  key={ index }
-                  data-testid={ `${index}-recipe-card` }
+                  data-testid={ `${index}-card-name` }
+                  style={ { fontSize: '10px' } }
                 >
-                  <img
-                    data-testid={ `${index}-card-img` }
-                    src={ recipe.strMealThumb }
-                    alt={ recipe.strMeal }
-                    style={ { width: '100px', height: '100px', marginRight: '10px' } }
-                  />
-                  <div
-                    data-testid={ `${index}-card-name` }
-                    style={ { fontSize: '10px' } }
-                  >
-                    {recipe.strMeal}
-
-                  </div>
+                  {recipe.strMeal}
                 </div>
-              ))
-          }
+              </div>
+            ))}
         </div>
       </>
     );
