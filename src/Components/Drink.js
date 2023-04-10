@@ -12,14 +12,20 @@ export default class Drink extends Component {
     loading: true,
     carrousel: [],
     startButton: true,
+    recipeStarted: false,
   };
 
   componentDidMount() {
     const { id } = this.props;
-    const storageMeal = JSON.parse(localStorage.getItem('doneRecipes'));
-    if (storageMeal?.some((recipe) => recipe.id === id)) {
+    const storageDrink = JSON.parse(localStorage.getItem('doneRecipes'));
+    const inProgressDrink = JSON.parse(localStorage.getItem('inProgressRecipes'));
+    if (storageDrink?.some((recipe) => recipe.id === id)) {
       this.setState({ startButton: false });
     }
+    if (inProgressDrink?.drinks[id]) {
+      this.setState({ recipeStarted: true });
+    }
+
     this.fetchCarrousel();
     this.fetchDrink();
   }
@@ -58,7 +64,14 @@ export default class Drink extends Component {
   };
 
   render() {
-    const { drink, loading, ingredients, carrousel, startButton } = this.state;
+    const { drink,
+      loading,
+      ingredients,
+      carrousel,
+      startButton,
+      recipeStarted,
+    } = this.state;
+    const { push, id } = this.props;
     return (
       loading ? null : (
         drink.map((iten) => (
@@ -125,8 +138,9 @@ export default class Drink extends Component {
               <button
                 className="fixed"
                 data-testid="start-recipe-btn"
+                onClick={ () => push(`/drinks/${id}/in-progress`) }
               >
-                Start Recipe
+                {recipeStarted ? 'Continue Recipe' : 'Start Recipe'}
 
               </button>
             ) : null}
@@ -139,4 +153,5 @@ export default class Drink extends Component {
 
 Drink.propTypes = {
   id: PropTypes.string.isRequired,
+  push: PropTypes.func.isRequired,
 };
