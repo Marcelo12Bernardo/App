@@ -13,8 +13,6 @@ class SearchBar extends Component {
 
   componentDidUpdate() {
     const { push, result, foodOrDrink } = this.props;
-    console.log(result[0].idMeal);
-    console.log(result[0].idDrink);
     if (foodOrDrink === '/meals' && result?.length === 1) {
       push(`/meals/${result[0].idMeal}`);
     }

@@ -22,7 +22,7 @@ class Meals extends Component {
         <>
           {meals.map((meal, index) => (
             <div
-              key={ index }
+              key={ index + meal.strMeal }
               data-testid={ `${index}-recipe-card` }
             >
               <img

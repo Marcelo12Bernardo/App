@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { motion } from 'framer-motion';
+import { connect } from 'react-redux';
+import { favoriteRecipeDetails } from '../Redux/Actions/index';
 import '../App.css';
 
-export default class Meal extends Component {
+class Meal extends Component {
   state = {
     meal: [],
     ingredients: [],
@@ -53,12 +55,22 @@ export default class Meal extends Component {
   };
 
   fetchMeal = async () => {
-    const { id } = this.props;
+    const { id, dispatch } = this.props;
     const firstFetch = await fetch(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`);
     const json = await firstFetch.json();
     this.setState({ meal: json.meals }, () => {
       this.gettingIngredients(json.meals);
     });
+    const fRD = {
+      id: json.meals[0].idMeal,
+      type: 'meal',
+      nationality: json.meals[0].strArea,
+      category: json.meals[0].strCategory,
+      alcoholicOrNot: '',
+      name: json.meals[0].strMeal,
+      image: json.meals[0].strMealThumb,
+    };
+    dispatch(favoriteRecipeDetails(fRD));
   };
 
   render() {
@@ -71,9 +83,10 @@ export default class Meal extends Component {
     } = this.state;
     const { id, push } = this.props;
     return (
-      loading ? null : (
-        meal.map((iten) => (
-          <>
+      <div>
+        {loading ? null : (
+          meal.map((iten) => (
+
             <div key={ iten.strMeal }>
               <h1
                 data-testid="recipe-title"
@@ -94,7 +107,7 @@ export default class Meal extends Component {
               {ingredients.map((ingredient, index) => (
                 <p
                   data-testid={ `${index}-ingredient-name-and-measure` }
-                  key={ ingredient }
+                  key={ index }
                 >
                   {ingredient}
 
@@ -113,47 +126,44 @@ export default class Meal extends Component {
                 title="YouTube video player"
                 allowFullScreen
               />
-            </div>
-            <div className="carDiv">
-              <motion.div className="carrousel" whileDrag={ { cursor: 'grabbing' } }>
+            </div>)))}
+        <div className="carDiv">
+          <motion.div className="carrousel" whileDrag={ { cursor: 'grabbing' } }>
+            <motion.div
+              className="inner"
+              drag="x"
+              dragConstraints={ { right: 0, left: -764 } }
+            >
+              {carrousel.map((drink, index) => (
                 <motion.div
-                  className="inner"
-                  drag="x"
-                  dragConstraints={ { right: 0, left: -764 } }
+                  className="iten"
+                  data-testid={ `${index}-recommendation-card` }
+                  key={ drink.idDrink + index }
                 >
-                  {carrousel.map((drink, index) => (
-                    <motion.div
-                      className="iten"
-                      data-testid={ `${index}-recommendation-card` }
-                      key={ drink.idDrink + index }
-                    >
-                      <p data-testid={ `${index}-recommendation-title` }>
-                        {drink.strDrink}
-                      </p>
-                      <img
-                        src={ drink.strDrinkThumb }
-                        alt={ drink.idDrink }
-                      />
+                  <p data-testid={ `${index}-recommendation-title` }>
+                    {drink.strDrink}
+                  </p>
+                  <img
+                    src={ drink.strDrinkThumb }
+                    alt={ drink.idDrink }
+                  />
 
-                    </motion.div>
-                  ))}
                 </motion.div>
-              </motion.div>
-              <br />
-              {startButton ? (
-                <button
-                  className="fixed"
-                  data-testid="start-recipe-btn"
-                  onClick={ () => push(`/meals/${id}/in-progress`) }
-                >
-                  {recipeStarted ? 'Continue Recipe' : 'Start Recipe'}
+              ))}
+            </motion.div>
+          </motion.div>
+        </div>
+        {startButton ? (
+          <button
+            className="fixed"
+            data-testid="start-recipe-btn"
+            onClick={ () => push(`/meals/${id}/in-progress`) }
+          >
+            {recipeStarted ? 'Continue Recipe' : 'Start Recipe'}
 
-                </button>
-              ) : null}
-            </div>
-          </>
-        ))
-      )
+          </button>
+        ) : null}
+      </div>
     );
   }
 }
@@ -161,4 +171,7 @@ export default class Meal extends Component {
 Meal.propTypes = {
   id: PropTypes.string.isRequired,
   push: PropTypes.func.isRequired,
+  dispatch: PropTypes.func.isRequired,
 };
+
+export default connect()(Meal);
