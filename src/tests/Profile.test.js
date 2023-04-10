@@ -1,5 +1,5 @@
 import React from 'react';
-import { screen, act } from '@testing-library/react';
+import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import App from '../App';
 import renderWithRouterAndRedux from './renderWithRouterAndRedux';
@@ -23,7 +23,6 @@ describe('testes da pagina profile', () => {
     const iconProfile = screen.getByTestId(idIconPerfil);
     userEvent.click(iconProfile);
     renderWithRouterAndRedux('/profile');
-    // renderWithRouterAndRedux('/meals');
     const lblEmail = screen.getByTestId('profile-email');
     const btnDone = screen.getByTestId('profile-done-btn');
     const btnFavorites = screen.getByTestId('profile-favorite-btn');
