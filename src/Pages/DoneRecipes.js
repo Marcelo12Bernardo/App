@@ -1,8 +1,19 @@
 import React, { Component } from 'react';
+// import PropTypes from 'prop-types';
 import Header from '../Components/Header';
 
+const copy = require('clipboard-copy');
+
 export default class DoneRecipes extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      linkCopied: false,
+    };
+  }
+
   render() {
+    // const { match: { url } } = this.props;
     // localStorage.setItem('doneRecipes', JSON.stringify([
     //   {
     //     id: '52771',
@@ -18,6 +29,7 @@ export default class DoneRecipes extends Component {
 
     const json = localStorage.getItem('doneRecipes');
     const doneRecipes = JSON.parse(json) || [];
+    const { linkCopied } = this.state;
     return (
       <div>
         <Header name="Done Recipes" />
@@ -36,6 +48,7 @@ export default class DoneRecipes extends Component {
                 tags,
                 nationality,
                 alcoholicOrNot,
+                id,
               },
               index,
             ) => (
@@ -69,9 +82,15 @@ export default class DoneRecipes extends Component {
                 <button
                   data-testid={ `${index}-horizontal-share-btn` }
                   src="../images/shareIcon.svg"
+                  onClick={ () => {
+                    copy(`http://localhost:3000/meals/${id}`);
+                    this.setState({ linkCopied: true });
+                  } }
                 >
                   Share
                 </button>
+                {linkCopied && <p>Link copied!</p>}
+
                 {/* {tags
                   && tags.map(
                     (elem, indexTag) => indexTag > 2 && (
@@ -89,3 +108,9 @@ export default class DoneRecipes extends Component {
     );
   }
 }
+
+// DoneRecipes.propTypes = {
+//   match: PropTypes.shape({
+//     url: PropTypes.string,
+//   }).isRequired,
+// };
