@@ -15,7 +15,7 @@ export default class Meal extends Component {
   componentDidMount() {
     const { id } = this.props;
     const storageMeal = JSON.parse(localStorage.getItem('doneRecipes'));
-    if (storageMeal.some((recipe) => recipe.id === id)) {
+    if (storageMeal?.some((recipe) => recipe.id === id)) {
       this.setState({ startButton: false });
     }
     this.fetchCarrousel();
