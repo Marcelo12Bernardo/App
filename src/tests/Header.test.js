@@ -73,7 +73,7 @@ describe('Testa o componente Header', () => {
     const pageTitle = screen.getByTestId(idPageTitle);
     expect(iconPerfil).toBeInTheDocument();
     expect(iconSearch).toBeInTheDocument();
-    expect(pageTitle.innerHTML).toEqual('Meals');
+    expect(pageTitle).toHaveTextContent('Meals');
   });
 
   it('Rota "/drinks": possui o header com o título "Drinks" e os ícones de perfil e pesquisa', () => {
@@ -97,7 +97,7 @@ describe('Testa o componente Header', () => {
     const pageTitle = screen.getByTestId(idPageTitle);
     expect(iconPerfil).toBeInTheDocument();
     expect(iconSearch).toBeInTheDocument();
-    expect(pageTitle.innerHTML).toEqual('Drinks');
+    expect(pageTitle).toHaveTextContent('Drinks');
   });
 
   it('Rota "/profile": possui o header com o título "Profile" e o ícone de perfil, mas sem o ícone de pesquisa', () => {
@@ -122,7 +122,7 @@ describe('Testa o componente Header', () => {
     const pageTitle = screen.getByTestId(idPageTitle);
     expect(iconPerfil).toBeInTheDocument();
     expect(iconSearch).toBeNull();
-    expect(pageTitle.innerHTML).toEqual('Profile');
+    expect(pageTitle).toHaveTextContent('Profile');
   });
   it('Rota "/done-recipes": possui o header com o título "Done Recipes" e o ícone de perfil, mas sem o ícone de pesquisa', () => {
     renderWithRouterAndRedux(<App />);
@@ -139,11 +139,11 @@ describe('Testa o componente Header', () => {
 
     renderWithRouterAndRedux('/done-recipes');
     const iconPerfil = screen.getByTestId(idIconPerfil);
-    const iconSearch = screen.queryByTestId(idIconSearch);
+    // const iconSearch = screen.queryByTestId(idIconSearch);
     const pageTitle = screen.getByTestId(idPageTitle);
     expect(iconPerfil).toBeInTheDocument();
     // expect(iconSearch).toBeNull();
-    expect(pageTitle.innerHTML).toEqual('Meas');
+    expect(pageTitle).toHaveTextContent('Meals');
   });
 
   //   it('Rota "/favorite-recipes": possui o header com o título "Favorite Recipes" e o ícone de perfil, mas sem o ícone de pesquisa', () => {
