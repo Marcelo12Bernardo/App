@@ -41,8 +41,8 @@ describe('Testa o componente Header', () => {
     userEvent.click(button);
     renderWithRouterAndRedux('/meals');
 
-    const iconSearch = screen.getByTestId(idIconSearch);
-    userEvent.click(iconSearch);
+    const iconPerfil = screen.getByTestId(idIconPerfil);
+    userEvent.click(iconPerfil);
     const { pathname } = history.location;
     expect(pathname).toBe('/profile');
   });
