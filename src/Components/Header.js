@@ -14,6 +14,15 @@ class Header extends Component {
     if (name === '/drinks') {
       return 'Drinks';
     }
+    if (name === '/done-recipes') {
+      return 'Done Recipes';
+    }
+    if (name === '/profile') {
+      return 'Profile';
+    }
+    if (name === '/favorite-recipes') {
+      return 'Favorite Recipes';
+    }
     return name;
   };
 
@@ -28,7 +37,7 @@ class Header extends Component {
           alignItems: 'center',
         } }
       >
-        {this.headerTitle()}
+
         <header
           data-testid="page-title"
           style={ {
@@ -38,6 +47,7 @@ class Header extends Component {
             justifyContent: 'space-around',
           } }
         >
+          {this.headerTitle()}
           {name === '/meals' || name === '/drinks' ? <SearchIcon /> : null}
           {searchBar && <SearchBar foodOrDrink={ name } /> }
           <ProfileIcon />
