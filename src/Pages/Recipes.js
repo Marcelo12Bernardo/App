@@ -18,7 +18,11 @@ class Recipes extends Component {
     return (
       <div>
         <Header name={ pathname } />
-        {pathname === '/meals' ? <Meals /> : <Drinks />}
+        <div>
+          {
+            pathname === '/meals' ? <Meals /> : <Drinks />
+          }
+        </div>
         <footer>
           <Footer />
         </footer>
