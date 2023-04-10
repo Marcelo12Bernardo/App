@@ -12,7 +12,6 @@ describe('testes da pagina de login', () => {
     const emailInput = screen.getByTestId(idEmail);
     const passInput = screen.getByTestId(idPassword);
     const button = screen.getByRole('button');
-
     expect(emailInput).toBeInTheDocument();
     expect(passInput).toBeInTheDocument();
     expect(button).toBeInTheDocument();
@@ -44,11 +43,12 @@ describe('testes da pagina de login', () => {
     const emailInput = screen.getByTestId(idEmail);
     const passInput = screen.getByTestId(idPassword);
     const button = screen.getByRole('button');
-    userEvent.type(emailInput, 'usuario@gmail.com');
-    userEvent.type(passInput, 'user1234');
-
-    userEvent.click(button);
-    const { pathname } = history.location;
-    expect(pathname).toBe('/meals');
+    act(() => {
+      userEvent.type(emailInput, 'usuario@gmail.com');
+      userEvent.type(passInput, 'user1234');
+      userEvent.click(button);
+      const { pathname } = history.location;
+      expect(pathname).toBe('/meals');
+    });
   });
 });
