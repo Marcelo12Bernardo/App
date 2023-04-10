@@ -62,7 +62,6 @@ class Meals extends Component {
 
   render() {
     const { categoriesData, recipesByCategory, isFilter } = this.state;
-    console.log(isFilter);
 
     return (
       <>

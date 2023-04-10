@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { motion } from 'framer-motion';
+import { favoriteRecipeDetails } from '../Redux/Actions/index';
 import '../App.css';
 
 const maxCarrousel = 6;
 
-export default class Drink extends Component {
+class Drink extends Component {
   state = {
     drink: [],
     ingredients: [],
@@ -55,12 +57,22 @@ export default class Drink extends Component {
   };
 
   fetchDrink = async () => {
-    const { id } = this.props;
+    const { id, dispatch } = this.props;
     const firstFetch = await fetch(`https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${id}`);
     const json = await firstFetch.json();
     this.setState({ drink: json.drinks }, () => {
       this.gettingIngredients(json.drinks);
     });
+    const fRD = {
+      id: json.drinks[0].idDrink,
+      type: 'drink',
+      nationality: '',
+      category: json.drinks[0].strCategory,
+      alcoholicOrNot: json.drinks[0].strAlcoholic,
+      name: json.drinks[0].strDrink,
+      image: json.drinks[0].strDrinkThumb,
+    };
+    dispatch(favoriteRecipeDetails(fRD));
   };
 
   render() {
@@ -154,4 +166,6 @@ export default class Drink extends Component {
 Drink.propTypes = {
   id: PropTypes.string.isRequired,
   push: PropTypes.func.isRequired,
+  dispatch: PropTypes.func.isRequired,
 };
+export default connect()(Drink);
