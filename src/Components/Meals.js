@@ -7,6 +7,7 @@ class Meals extends Component {
   state = {
     categoriesData: [],
     recipesByCategory: [],
+    isFilter: false,
   };
 
   componentDidMount() {
@@ -60,7 +61,8 @@ class Meals extends Component {
   };
 
   render() {
-    const { categoriesData, recipesByCategory } = this.state;
+    const { categoriesData, recipesByCategory, isFilter } = this.state;
+    console.log(isFilter);
 
     return (
       <>
@@ -74,7 +76,11 @@ class Meals extends Component {
               <button
                 key={ `${categoryName}${categoryIndex}` }
                 data-testid={ `${categoryName}-category-filter` }
-                onClick={ () => this.handleSearchByCategory(categoryName) }
+                onClick={ () => {
+                  this.setState((prevState) => ({ isFilter: !prevState.isFilter }));
+                  if (isFilter) this.handleRenderRecipes();
+                  else this.handleSearchByCategory(categoryName);
+                } }
               >
                 { categoryName }
               </button>
@@ -93,6 +99,7 @@ class Meals extends Component {
             flexWrap: 'wrap',
             justifyContent: 'center',
             marginTop: '20px',
+            flexDirection: 'column',
           } }
         >
           {
