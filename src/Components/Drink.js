@@ -11,9 +11,15 @@ export default class Drink extends Component {
     ingredients: [],
     loading: true,
     carrousel: [],
+    startButton: true,
   };
 
   componentDidMount() {
+    const { id } = this.props;
+    const storageMeal = JSON.parse(localStorage.getItem('doneRecipes'));
+    if (storageMeal.some((recipe) => recipe.id === id)) {
+      this.setState({ startButton: false });
+    }
     this.fetchCarrousel();
     this.fetchDrink();
   }
@@ -52,7 +58,7 @@ export default class Drink extends Component {
   };
 
   render() {
-    const { drink, loading, ingredients, carrousel } = this.state;
+    const { drink, loading, ingredients, carrousel, startButton } = this.state;
     return (
       loading ? null : (
         drink.map((iten) => (
@@ -115,13 +121,15 @@ export default class Drink extends Component {
               </motion.div>
             </div>
             <br />
-            <button
-              className="fixed"
-              data-testid="start-recipe-btn"
-            >
-              Start Recipe
+            {startButton ? (
+              <button
+                className="fixed"
+                data-testid="start-recipe-btn"
+              >
+                Start Recipe
 
-            </button>
+              </button>
+            ) : null}
           </div>
         ))
       )
