@@ -9,9 +9,20 @@ export default class Meal extends Component {
     ingredients: [],
     loading: true,
     carrousel: [],
+    startButton: true,
+    recipeStarted: false,
   };
 
   componentDidMount() {
+    const { id } = this.props;
+    const storageMeal = JSON.parse(localStorage.getItem('doneRecipes'));
+    const inProgressMeal = JSON.parse(localStorage.getItem('inProgressRecipes'));
+    if (storageMeal?.some((recipe) => recipe.id === id)) {
+      this.setState({ startButton: false });
+    }
+    if (inProgressMeal?.meals[id]) {
+      this.setState({ recipeStarted: true });
+    }
     this.fetchCarrousel();
     this.fetchMeal();
   }
@@ -51,7 +62,14 @@ export default class Meal extends Component {
   };
 
   render() {
-    const { meal, ingredients, loading, carrousel } = this.state;
+    const { meal,
+      ingredients,
+      loading,
+      carrousel,
+      startButton,
+      recipeStarted,
+    } = this.state;
+    const { id, push } = this.props;
     return (
       loading ? null : (
         meal.map((iten) => (
@@ -113,7 +131,6 @@ export default class Meal extends Component {
                         {drink.strDrink}
                       </p>
                       <img
-                        // data-testid={ `${index}-recommendation-title` }
                         src={ drink.strDrinkThumb }
                         alt={ drink.idDrink }
                       />
@@ -123,13 +140,16 @@ export default class Meal extends Component {
                 </motion.div>
               </motion.div>
               <br />
-              <button
-                className="fixed"
-                data-testid="start-recipe-btn"
-              >
-                Start Recipe
+              {startButton ? (
+                <button
+                  className="fixed"
+                  data-testid="start-recipe-btn"
+                  onClick={ () => push(`/meals/${id}/in-progress`) }
+                >
+                  {recipeStarted ? 'Continue Recipe' : 'Start Recipe'}
 
-              </button>
+                </button>
+              ) : null}
             </div>
           </>
         ))
@@ -140,4 +160,5 @@ export default class Meal extends Component {
 
 Meal.propTypes = {
   id: PropTypes.string.isRequired,
+  push: PropTypes.func.isRequired,
 };

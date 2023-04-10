@@ -11,9 +11,21 @@ export default class Drink extends Component {
     ingredients: [],
     loading: true,
     carrousel: [],
+    startButton: true,
+    recipeStarted: false,
   };
 
   componentDidMount() {
+    const { id } = this.props;
+    const storageDrink = JSON.parse(localStorage.getItem('doneRecipes'));
+    const inProgressDrink = JSON.parse(localStorage.getItem('inProgressRecipes'));
+    if (storageDrink?.some((recipe) => recipe.id === id)) {
+      this.setState({ startButton: false });
+    }
+    if (inProgressDrink?.drinks[id]) {
+      this.setState({ recipeStarted: true });
+    }
+
     this.fetchCarrousel();
     this.fetchDrink();
   }
@@ -52,7 +64,14 @@ export default class Drink extends Component {
   };
 
   render() {
-    const { drink, loading, ingredients, carrousel } = this.state;
+    const { drink,
+      loading,
+      ingredients,
+      carrousel,
+      startButton,
+      recipeStarted,
+    } = this.state;
+    const { push, id } = this.props;
     return (
       loading ? null : (
         drink.map((iten) => (
@@ -115,13 +134,16 @@ export default class Drink extends Component {
               </motion.div>
             </div>
             <br />
-            <button
-              className="fixed"
-              data-testid="start-recipe-btn"
-            >
-              Start Recipe
+            {startButton ? (
+              <button
+                className="fixed"
+                data-testid="start-recipe-btn"
+                onClick={ () => push(`/drinks/${id}/in-progress`) }
+              >
+                {recipeStarted ? 'Continue Recipe' : 'Start Recipe'}
 
-            </button>
+              </button>
+            ) : null}
           </div>
         ))
       )
@@ -131,4 +153,5 @@ export default class Drink extends Component {
 
 Drink.propTypes = {
   id: PropTypes.string.isRequired,
+  push: PropTypes.func.isRequired,
 };
