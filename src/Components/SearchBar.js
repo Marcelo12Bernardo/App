@@ -25,24 +25,24 @@ class SearchBar extends Component {
     const { dispatch } = this.props;
     let firstFetch;
     let json;
-    try {
-      if (foodOrDrink === '/meals') {
-        firstFetch = await fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?i=${inputText}`);
-        json = await firstFetch.json();
-        if (json.meals === null) {
-          global.alert(notFound);
-        }
-      } else {
-        firstFetch = await
-        fetch(`https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=${inputText}`);
-        json = await firstFetch.json();
-        if (json.drinks === null) {
-          global.alert(notFound);
-        }
+    // try {
+    if (foodOrDrink === '/meals') {
+      firstFetch = await fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?i=${inputText}`);
+      json = await firstFetch.json();
+      if (json.meals === null) {
+        global.alert(notFound);
       }
-    } catch (error) {
-      global.alert(notFound);
+    } else {
+      firstFetch = await
+      fetch(`https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=${inputText}`);
+      json = await firstFetch.json();
+      if (json.drinks === null) {
+        global.alert(notFound);
+      }
     }
+    // } catch (error) {
+    //   global.alert(notFound);
+    // }
     dispatch(saveFetchAction(json));
   };
 
@@ -50,24 +50,24 @@ class SearchBar extends Component {
     const { dispatch } = this.props;
     let firstFetch;
     let json;
-    try {
-      if (foodOrDrink === '/meals') {
-        firstFetch = await fetch(`https://www.themealdb.com/api/json/v1/1/search.php?s=${inputText}`);
-        json = await firstFetch.json();
-        if (json.meals === null) {
-          global.alert(notFound);
-        }
-      } else {
-        firstFetch = await
-        fetch(`https://www.thecocktaildb.com/api/json/v1/1/search.php?s=${inputText}`);
-        json = await firstFetch.json();
-        if (json.drinks === null) {
-          global.alert(notFound);
-        }
+    // try {
+    if (foodOrDrink === '/meals') {
+      firstFetch = await fetch(`https://www.themealdb.com/api/json/v1/1/search.php?s=${inputText}`);
+      json = await firstFetch.json();
+      if (json.meals === null) {
+        global.alert(notFound);
       }
-    } catch (error) {
-      global.alert(notFound);
+    } else {
+      firstFetch = await
+      fetch(`https://www.thecocktaildb.com/api/json/v1/1/search.php?s=${inputText}`);
+      json = await firstFetch.json();
+      if (json.drinks === null) {
+        global.alert(notFound);
+      }
     }
+    // } catch (error) {
+    //   global.alert(notFound);
+    // }
     dispatch(saveFetchAction(json));
   };
 
@@ -75,45 +75,40 @@ class SearchBar extends Component {
     const { dispatch } = this.props;
     let firstFetch;
     let json;
-    try {
-      if (foodOrDrink === '/meals') {
-        firstFetch = await fetch(`https://www.themealdb.com/api/json/v1/1/search.php?f=${inputText}`);
-        json = await firstFetch.json();
-        if (json.meals === null) {
-          global.alert(notFound);
-        }
-      } else {
-        firstFetch = await
-        fetch(`https://www.thecocktaildb.com/api/json/v1/1/search.php?f=${inputText}`);
-        json = await firstFetch.json();
-        if (json.drinks === null) {
-          global.alert(notFound);
-        }
+    // try {
+    if (foodOrDrink === '/meals') {
+      firstFetch = await fetch(`https://www.themealdb.com/api/json/v1/1/search.php?f=${inputText}`);
+      json = await firstFetch.json();
+      if (json.meals === null) {
+        global.alert(notFound);
       }
-    } catch (error) {
-      global.alert(notFound);
+    } else {
+      firstFetch = await
+      fetch(`https://www.thecocktaildb.com/api/json/v1/1/search.php?f=${inputText}`);
+      json = await firstFetch.json();
+      // if (json.drinks === null) {
+      //   global.alert(notFound);
+      // }
     }
+    // } catch (error) {
+    //   global.alert(notFound);
+    // }
     dispatch(saveFetchAction(json));
   };
 
   fetchFunction = async (inputText, searchFilter, foodOrDrink) => {
-    switch (searchFilter) {
-    case 'ingredient':
+    if (searchFilter === 'ingredient') {
       await this.fetchIngredients(inputText, foodOrDrink);
-      break;
-    case 'name':
+    }
+    if (searchFilter === 'name') {
       await this.fetchNames(inputText, foodOrDrink);
-      break;
-    case 'firstLetter':
+    }
+    if (searchFilter === 'firstLetter') {
       if (inputText.length > 1) {
         global
           .alert('Your search must have only 1 (one) character');
-        break;
       }
       await this.fetchFirstLetter(inputText, foodOrDrink);
-      break;
-    default:
-      break;
     }
   };
 
