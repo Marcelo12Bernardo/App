@@ -40,3 +40,7 @@
   position: fixed;
   right: 170px;
 }
+
+.ingredientsCheckbox {
+  display: flex;
+}
