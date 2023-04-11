@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { saveFetchAction } from '../Redux/Actions';
 
 class Drinks extends Component {
@@ -106,24 +107,24 @@ class Drinks extends Component {
           {
             recipesByCategory
               && recipesByCategory.map((recipe, index) => (
-                <div
-                  key={ index }
-                  data-testid={ `${index}-recipe-card` }
-                >
-                  <img
-                    data-testid={ `${index}-card-img` }
-                    src={ recipe.strDrinkThumb }
-                    alt={ recipe.strDrink }
-                    style={ { width: '100px', height: '100px', marginRight: '10px' } }
-                  />
+                <Link key={ index } to={ `/drinks/${recipe.idDrink}` }>
                   <div
-                    data-testid={ `${index}-card-name` }
-                    style={ { fontSize: '10px' } }
+                    data-testid={ `${index}-recipe-card` }
                   >
-                    {recipe.strDrink}
-
+                    <img
+                      data-testid={ `${index}-card-img` }
+                      src={ recipe.strDrinkThumb }
+                      alt={ recipe.strDrink }
+                      style={ { width: '100px', height: '100px', marginRight: '10px' } }
+                    />
+                    <div
+                      data-testid={ `${index}-card-name` }
+                      style={ { fontSize: '10px' } }
+                    >
+                      {recipe.strDrink}
+                    </div>
                   </div>
-                </div>
+                </Link>
               ))
           }
         </div>
