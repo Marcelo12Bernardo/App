@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { saveFetchAction } from '../Redux/Actions';
 
 class Drinks extends Component {
   state = {
@@ -12,7 +11,6 @@ class Drinks extends Component {
   };
 
   componentDidMount() {
-    this.fetchDrinks();
     this.fetchCategories();
     this.handleRenderRecipes();
   }
@@ -29,13 +27,6 @@ class Drinks extends Component {
     this.setState({ recipesByCategory: drinks });
   }
 
-  fetchDrinks = async () => {
-    const { dispatch } = this.props;
-    const firstFetch = await fetch('https://www.thecocktaildb.com/api/json/v1/1/search.php?s=');
-    const json = await firstFetch.json();
-    dispatch(saveFetchAction(json));
-  };
-
   fetchCategories = async () => {
     const categoriesQuantity = 5;
     const response = await fetch('https://www.thecocktaildb.com/api/json/v1/1/list.php?c=list');
@@ -43,7 +34,7 @@ class Drinks extends Component {
     const categories = data.drinks?.filter(
       (category, index) => index < categoriesQuantity && category,
     );
-    const categoryNames = categories.map((item) => item.strCategory);
+    const categoryNames = categories?.map((item) => item.strCategory);
     this.setState(
       { categoriesData: categoryNames },
     );
@@ -139,7 +130,6 @@ const mapStateToProps = (state) => ({
 
 Drinks.propTypes = {
   drinks: PropTypes.instanceOf(Array).isRequired,
-  dispatch: PropTypes.func.isRequired,
 };
 
 export default connect(mapStateToProps)(Drinks);

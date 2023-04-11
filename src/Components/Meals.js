@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { saveFetchAction } from '../Redux/Actions';
 
 class Meals extends Component {
   state = {
@@ -12,7 +11,6 @@ class Meals extends Component {
   };
 
   componentDidMount() {
-    this.fetchMeals();
     this.fetchCategories();
     this.handleRenderRecipes();
   }
@@ -29,13 +27,6 @@ class Meals extends Component {
     this.setState({ recipesByCategory: meals });
   }
 
-  fetchMeals = async () => {
-    const { dispatch } = this.props;
-    const firstfetch = await fetch('https://www.themealdb.com/api/json/v1/1/search.php?s=');
-    const json = await firstfetch.json();
-    dispatch(saveFetchAction(json));
-  };
-
   fetchCategories = async () => {
     const categoriesQuantity = 5;
     const response = await fetch('https://www.themealdb.com/api/json/v1/1/list.php?c=list');
@@ -43,7 +34,7 @@ class Meals extends Component {
     const categories = data.meals?.filter(
       (category, index) => index < categoriesQuantity && category,
     );
-    const categoryNames = categories.map((item) => item.strCategory);
+    const categoryNames = categories?.map((item) => item.strCategory);
     this.setState(
       { categoriesData: categoryNames },
     );
@@ -140,7 +131,6 @@ const mapStateToProps = (state) => ({
 });
 
 Meals.propTypes = {
-  dispatch: PropTypes.func.isRequired,
   meals: PropTypes.instanceOf(Array).isRequired,
 };
 
