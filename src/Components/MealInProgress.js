@@ -59,6 +59,7 @@ class MealInProgress extends Component {
     const { id } = this.props;
     const { ingredients } = this.state;
     const storage = JSON.parse(localStorage.getItem('inProgressRecipes'));
+
     if (storage.meals[id] !== undefined) {
       if (storage.meals[id].length === ingredients.length) {
         this.setState({ buttonDesactivated: false });
