@@ -10,6 +10,14 @@ export default class Favorites extends Component {
     };
   }
 
+  handleClick = (e, id) => {
+    e.preventDefault();
+    const json = localStorage.getItem('favoriteRecipes');
+    const favoriteRecipes = JSON.parse(json) || [];
+    const newFavoriteRecipes = favoriteRecipes.filter((recipe) => recipe.id !== id);
+    localStorage.setItem('favoriteRecipes', JSON.stringify(newFavoriteRecipes));
+  };
+
   render() {
     const json = localStorage.getItem('favoriteRecipes');
     const favoriteRecipes = JSON.parse(json) || [];
@@ -28,6 +36,7 @@ export default class Favorites extends Component {
                 category,
                 name,
                 image,
+                tags,
                 nationality,
                 alcoholicOrNot,
                 id,
@@ -46,6 +55,12 @@ export default class Favorites extends Component {
                     <p data-testid={ `${index}-horizontal-top-text` }>
                       {`${nationality} - ${category}`}
                     </p>
+                    <p data-testid={ `${index}-${tags[0]}-horizontal-tag` }>
+                      {tags[0]}
+                    </p>
+                    <p data-testid={ `${index}-${tags[1]}-horizontal-tag` }>
+                      {tags[1]}
+                    </p>
                   </div>
                 ) : (
                   <p data-testid={ `${index}-horizontal-top-text` }>
@@ -53,7 +68,6 @@ export default class Favorites extends Component {
                   </p>
                 )}
                 <p data-testid={ `${index}-horizontal-name` }>{name}</p>
-
                 <button
                   data-testid={ `${index}-horizontal-share-btn` }
                   src="../images/shareIcon.svg"
@@ -66,13 +80,10 @@ export default class Favorites extends Component {
                 </button>
                 <button
                   data-testid={ `${index}-horizontal-favorite-btn` }
-                  src="../images/shareIcon.svg"
-                  onClick={ () => {
-                    copy(`http://localhost:3000/meals/${id}`);
-                    this.setState({ linkCopied: true });
-                  } }
+                  src="../images/bblackHeartIcon.svg"
+                  onClick={ (e) => this.handleClick(e, id) }
                 >
-                  Share
+                  Favorite
                 </button>
                 {linkCopied && <p>Link copied!</p>}
               </div>
