@@ -86,7 +86,6 @@ class Meal extends Component {
       <div>
         {loading ? null : (
           meal.map((iten) => (
-
             <div key={ iten.strMeal }>
               <h1
                 data-testid="recipe-title"
