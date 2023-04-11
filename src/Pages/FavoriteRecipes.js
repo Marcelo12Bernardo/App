@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Header from '../Components/Header';
-import Footer from '../Components/Footer';
+import shareIcon from '../images/shareIcon.svg';
+import blackHeartIcon from '../images/blackHeartIcon.svg';
 
 export default class Favorites extends Component {
   constructor(props) {
@@ -10,12 +11,23 @@ export default class Favorites extends Component {
     };
   }
 
-  handleClick = (e, id) => {
-    e.preventDefault();
+  handleClickFavorite = (id) => {
     const json = localStorage.getItem('favoriteRecipes');
     const favoriteRecipes = JSON.parse(json) || [];
-    const newFavoriteRecipes = favoriteRecipes.filter((recipe) => recipe.id !== id);
-    localStorage.setItem('favoriteRecipes', JSON.stringify(newFavoriteRecipes));
+    const newArray = favoriteRecipes.filter((recipe) => recipe.id !== id);
+    localStorage.setItem('favoriteRecipes', JSON.stringify(newArray));
+    const section = document.getElementById(`${id}`);
+    section.parentNode.removeChild(section);
+  };
+
+  shareMeal = (id) => {
+    navigator.clipboard.writeText(`http://localhost:3000/meals/${id}`);
+    this.setState({ linkCopied: true });
+  };
+
+  shareDrink = (id) => {
+    navigator.clipboard.writeText(`http://localhost:3000/drinks/${id}`);
+    this.setState({ linkCopied: true });
   };
 
   render() {
@@ -23,75 +35,104 @@ export default class Favorites extends Component {
     const favoriteRecipes = JSON.parse(json) || [];
     const { linkCopied } = this.state;
     return (
-      <div>
+      <>
         <Header name="Favorite Recipes" />
-        <button data-testid="filter-by-all-btn">All</button>
-        <button data-testid="filter-by-meal-btn">Meals</button>
-        <button data-testid="filter-by-drink-btn">Drinks</button>
-        {favoriteRecipes
-          && favoriteRecipes.map(
-            (
-              {
-                type,
-                category,
-                name,
-                image,
-                tags,
-                nationality,
-                alcoholicOrNot,
-                id,
-              },
-              index,
-            ) => (
-              <div key={ index }>
+        <div>
+          <button
+            data-testid="filter-by-all-btn"
+            type="button"
+          >
+            All
+          </button>
+          <button
+            data-testid="filter-by-meal-btn"
+            type="button"
+          >
+            Meals
+          </button>
+          <button
+            data-testid="filter-by-drink-btn"
+            type="button"
+          >
+            Drinks
+          </button>
+        </div>
+        <div>
+          {favoriteRecipes.map((recFavorite, index) => (
+            recFavorite.type === 'meal' ? (
+              <section key={ recFavorite.id } id={ recFavorite.id }>
                 <img
                   data-testid={ `${index}-horizontal-image` }
-                  src={ image }
-                  alt={ name }
+                  src={ recFavorite.image }
+                  alt={ `Imagem da receita ${recFavorite.name}` }
                 />
-                <p data-testid={ `${index}-horizontal-top-text` }>{category}</p>
-                {type === 'meal' ? (
-                  <div>
-                    <p data-testid={ `${index}-horizontal-top-text` }>
-                      {`${nationality} - ${category}`}
-                    </p>
-                    <p data-testid={ `${index}-${tags[0]}-horizontal-tag` }>
-                      {tags[0]}
-                    </p>
-                    <p data-testid={ `${index}-${tags[1]}-horizontal-tag` }>
-                      {tags[1]}
-                    </p>
-                  </div>
-                ) : (
-                  <p data-testid={ `${index}-horizontal-top-text` }>
-                    {alcoholicOrNot}
-                  </p>
-                )}
-                <p data-testid={ `${index}-horizontal-name` }>{name}</p>
-                <button
-                  data-testid={ `${index}-horizontal-share-btn` }
-                  src="../images/shareIcon.svg"
-                  onClick={ () => {
-                    copy(`http://localhost:3000/meals/${id}`);
-                    this.setState({ linkCopied: true });
-                  } }
+                <p data-testid={ `${index}-horizontal-name` }>{recFavorite.name}</p>
+                <p
+                  data-testid={ `${index}-horizontal-top-text` }
                 >
-                  Share
+                  {`${recFavorite.nationality} - ${recFavorite.category}`}
+                </p>
+                <button
+                  type="button"
+                  onClick={ () => this.shareMeal(recFavorite.id) }
+                >
+                  <img
+                    data-testid={ `${index}-horizontal-share-btn` }
+                    src={ shareIcon }
+                    alt="Share Button"
+                  />
                 </button>
                 <button
-                  data-testid={ `${index}-horizontal-favorite-btn` }
-                  src="../images/bblackHeartIcon.svg"
-                  onClick={ (e) => this.handleClick(e, id) }
+                  type="button"
+                  onClick={ () => this.handleClickFavorite(recFavorite.id) }
                 >
-                  Favorite
+                  <img
+                    data-testid={ `${index}-horizontal-favorite-btn` }
+                    src={ blackHeartIcon }
+                    alt="Favorite Button"
+                  />
                 </button>
                 {linkCopied && <p>Link copied!</p>}
-              </div>
-            ),
-          )}
-        <Footer />
-      </div>
+              </section>
+            )
+              : (
+                <section key={ recFavorite.id } id={ recFavorite.id }>
+                  <img
+                    data-testid={ `${index}-horizontal-image` }
+                    src={ recFavorite.image }
+                    alt={ `Imagem do drink ${recFavorite.name}` }
+                  />
+                  <p data-testid={ `${index}-horizontal-name` }>{recFavorite.name}</p>
+                  <p data-testid={ `${index}-horizontal-top-text` }>
+                    {`${recFavorite.alcoholicOrNot}`}
+                  </p>
+                  <button
+                    type="button"
+                    onClick={ () => this.shareDrink(recFavorite.id) }
+                  >
+                    <img
+                      data-testid={ `${index}-horizontal-share-btn` }
+                      src={ shareIcon }
+                      alt="Share Button"
+                    />
+                  </button>
+                  <button
+                    type="button"
+                    onClick={ () => this.handleClickFavorite(recFavorite.id) }
+                  >
+                    <img
+                      data-testid={ `${index}-horizontal-favorite-btn` }
+                      src={ blackHeartIcon }
+                      alt="Favorite Button"
+                    />
+                  </button>
+                  {linkCopied && <p>Link copied!</p>}
+                </section>
+              )
+          ))}
+        </div>
+        {/* <Footer /> */}
+      </>
     );
   }
 }
-// [{ id, type, nationality, category, alcoholicOrNot, name, image }]
