@@ -1,4 +1,4 @@
-import { screen, act } from '@testing-library/react';
+import { screen, act, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import App from '../App';
 import renderWithRouterAndRedux from './renderWithRouterAndRedux';
@@ -135,8 +135,8 @@ describe('testando componente searchBar', () => {
       expect(name).toBeChecked();
       userEvent.click(searchButton);
     });
-    const shareIcon = await screen.findByRole('img', { name: /share button/i });
-    expect(shareIcon).toBeVisible();
+    const shareIcon = await screen.findByRole('heading', { name: /cocktail alcoholic/i });
+    expect(shareIcon).toBeInTheDocument();
   });
   it('verificando na page drinks', async () => {
     const { history } = renderWithRouterAndRedux(<App />);
@@ -213,6 +213,9 @@ describe('testando componente searchBar', () => {
       expect(name).toBeChecked();
       userEvent.click(searchButton);
     });
+    await waitFor(() => {
+      expect(mockAlert).toHaveBeenCalled();
+    });
   });
   it('alertas 3', async () => {
     const { history } = renderWithRouterAndRedux(<App />);
@@ -236,6 +239,63 @@ describe('testando componente searchBar', () => {
       userEvent.click(name);
       expect(name).toBeChecked();
       userEvent.click(searchButton);
+    });
+    await waitFor(() => {
+      expect(mockAlert).toHaveBeenCalled();
+    });
+  });
+  it('alertas 4', async () => {
+    const { history } = renderWithRouterAndRedux(<App />);
+    act(() => {
+      history.push('/meals');
+    });
+    const profileIcon = await screen.findByRole('img', { name: /profile icon/ });
+    const searchIcon = await screen.findByRole('img', { name: /search icon/ });
+    expect(profileIcon).toBeInTheDocument();
+    expect(searchIcon).toBeInTheDocument();
+    act(() => {
+      userEvent.click(searchIcon);
+    });
+    const name = await screen.findByRole('radio', { name: /ingredient/i });
+    expect(name).toBeVisible();
+    const textBox = await screen.findByRole('textbox');
+    const searchButton = await screen.findByTestId(testIDButtonSearch);
+    expect(textBox).toHaveValue('');
+    act(() => {
+      userEvent.type(textBox, 'xablau');
+      userEvent.click(name);
+      expect(name).toBeChecked();
+      userEvent.click(searchButton);
+    });
+    await waitFor(() => {
+      expect(mockAlert).toHaveBeenCalled();
+    });
+  });
+  it('alertas 5', async () => {
+    const { history } = renderWithRouterAndRedux(<App />);
+    act(() => {
+      history.push('/meals');
+    });
+    const profileIcon = await screen.findByRole('img', { name: /profile icon/ });
+    const searchIcon = await screen.findByRole('img', { name: /search icon/ });
+    expect(profileIcon).toBeInTheDocument();
+    expect(searchIcon).toBeInTheDocument();
+    act(() => {
+      userEvent.click(searchIcon);
+    });
+    const name = await screen.findByRole('radio', { name: /name/i });
+    expect(name).toBeVisible();
+    const textBox = await screen.findByRole('textbox');
+    const searchButton = await screen.findByTestId(testIDButtonSearch);
+    expect(textBox).toHaveValue('');
+    act(() => {
+      userEvent.type(textBox, 'xablau');
+      userEvent.click(name);
+      expect(name).toBeChecked();
+      userEvent.click(searchButton);
+    });
+    await waitFor(() => {
+      expect(mockAlert).toHaveBeenCalled();
     });
   });
 });
