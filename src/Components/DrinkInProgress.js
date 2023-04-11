@@ -80,7 +80,7 @@ class DrinkInProgress extends Component {
       alcoholicOrNot: drink.strAlcoholic,
       name: drink.strDrink,
       image: drink.strDrinkThumb,
-      doneDate: finishDate,
+      doneDate: finishDate.toISOString(),
       tags: [],
     };
     const doneRecipes = localStorage.getItem('doneRecipes');

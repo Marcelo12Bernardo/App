@@ -74,14 +74,14 @@ class MealInProgress extends Component {
     const finishDate = new Date();
     const recipeFinished = {
       id: meal.idMeal,
-      type: 'meal',
       nationality: meal.strArea,
-      category: meal.strCategory,
-      alcoholicOrNot: '',
       name: meal.strMeal,
+      category: meal.strCategory,
       image: meal.strMealThumb,
-      doneDate: finishDate,
-      tags: [],
+      type: 'meal',
+      alcoholicOrNot: '',
+      doneDate: finishDate.toISOString(),
+      tags: meal.strTags.split(','),
     };
     const doneRecipes = localStorage.getItem('doneRecipes');
     if (doneRecipes) {
