@@ -9,7 +9,21 @@ export default class DoneRecipes extends Component {
     super(props);
     this.state = {
       linkCopied: false,
+      doneRecipes: [],
+      filter: 'all',
     };
+
+    this.filterState = this.filterState.bind(this);
+  }
+
+  componentDidMount() {
+    const json = localStorage.getItem('doneRecipes');
+    const doneRecipes = JSON.parse(json) || [];
+    this.setState((prevState) => ({ ...prevState, doneRecipes }));
+  }
+
+  filterState(filter) {
+    this.setState({ filter });
   }
 
   render() {
@@ -27,17 +41,40 @@ export default class DoneRecipes extends Component {
     //     tags: ['Pasta', 'Curry'],
     //   }]));
 
-    const json = localStorage.getItem('doneRecipes');
-    const doneRecipes = JSON.parse(json) || [];
-    const { linkCopied } = this.state;
+    const { linkCopied, doneRecipes, filter } = this.state;
+    const filtedRecipes = filter === 'all'
+      ? doneRecipes
+      : doneRecipes.filter((recipe) => recipe.type === filter);
+
     return (
       <div>
         <Header name="Done Recipes" />
-        <button data-testid="filter-by-all-btn">All</button>
-        <button data-testid="filter-by-meal-btn">Meals</button>
-        <button data-testid="filter-by-drink-btn">Drinks</button>
-        {doneRecipes
-          && doneRecipes.map(
+        <button
+          data-testid="filter-by-all-btn"
+          onClick={ () => {
+            this.filterState('all');
+          } }
+        >
+          All
+        </button>
+        <button
+          data-testid="filter-by-meal-btn"
+          onClick={ () => {
+            this.filterState('meal');
+          } }
+        >
+          Meals
+        </button>
+        <button
+          data-testid="filter-by-drink-btn"
+          onClick={ () => {
+            this.filterState('drink');
+          } }
+        >
+          Drinks
+        </button>
+        {filtedRecipes
+          && filtedRecipes.map(
             (
               {
                 type,

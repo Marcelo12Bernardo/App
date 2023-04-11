@@ -14,15 +14,6 @@ class Header extends Component {
     if (name === '/drinks') {
       return 'Drinks';
     }
-    if (name === '/done-recipes') {
-      return 'Done Recipes';
-    }
-    if (name === '/profile') {
-      return 'Profile';
-    }
-    if (name === '/favorite-recipes') {
-      return 'Favorite Recipes';
-    }
     return name;
   };
 

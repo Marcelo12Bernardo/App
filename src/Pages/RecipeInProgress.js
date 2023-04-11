@@ -29,7 +29,10 @@ class RecipeInProgress extends Component {
       loading ? null : (
         <div>
           {copied && <p>Link copied!</p>}
-          <ShareIcon setTrue={ this.setCopiedTrue } path={ url } />
+          <ShareIcon
+            setTrue={ this.setCopiedTrue }
+            path={ url }
+          />
           {this.isFavorite() ? <BlackHeartIcon /> : <WhiteHeartIcon />}
           {path.includes('drinks')
             ? <DrinkInProgress push={ history.push } id={ id } />

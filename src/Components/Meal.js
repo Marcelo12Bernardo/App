@@ -22,7 +22,7 @@ class Meal extends Component {
     if (storageMeal?.some((recipe) => recipe.id === id)) {
       this.setState({ startButton: false });
     }
-    if (inProgressMeal?.meals[id]) {
+    if (inProgressMeal?.meals && inProgressMeal?.meals[id]) {
       this.setState({ recipeStarted: true });
     }
     this.fetchCarrousel();
@@ -86,7 +86,6 @@ class Meal extends Component {
       <div>
         {loading ? null : (
           meal.map((iten) => (
-
             <div key={ iten.strMeal }>
               <h1
                 data-testid="recipe-title"

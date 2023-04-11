@@ -24,10 +24,9 @@ class Drink extends Component {
     if (storageDrink?.some((recipe) => recipe.id === id)) {
       this.setState({ startButton: false });
     }
-    if (inProgressDrink?.drinks[id]) {
+    if (inProgressDrink?.drinks && inProgressDrink.drinks[id]) {
       this.setState({ recipeStarted: true });
     }
-
     this.fetchCarrousel();
     this.fetchDrink();
   }
