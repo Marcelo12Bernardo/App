@@ -131,7 +131,6 @@ export default class Favorites extends Component {
               )
           ))}
         </div>
-        {/* <Footer /> */}
       </>
     );
   }
