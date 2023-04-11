@@ -7,12 +7,11 @@ class CheckboxWithLabel extends React.Component {
   };
 
   handleCheckboxChange = () => {
-    const { id, ingredient, drinkOrMeal } = this.props;
+    const { id, ingredient, drinkOrMeal, activateButton } = this.props;
     const { checked } = this.state;
     this.setState({ checked: !checked });
     const storage = JSON.parse(localStorage.getItem('inProgressRecipes'));
-    if (storage !== null) {
-      console.log(storage[drinkOrMeal][id].includes(ingredient));
+    if (storage && storage[drinkOrMeal] && storage[drinkOrMeal][id]) {
       if (storage[drinkOrMeal][id].includes(ingredient)) {
         storage[drinkOrMeal][id] = storage[drinkOrMeal][id]
           .filter((unit) => unit !== ingredient);
@@ -21,16 +20,17 @@ class CheckboxWithLabel extends React.Component {
       }
       localStorage.setItem('inProgressRecipes', JSON.stringify(storage));
     } else {
-      const creatingStorage = { [drinkOrMeal]: { [id]: [ingredient] } };
+      const creatingStorage = { ...storage, [drinkOrMeal]: { [id]: [ingredient] } };
       localStorage.setItem('inProgressRecipes', JSON.stringify(creatingStorage));
     }
+    activateButton();
   };
 
   checkLocalStorage = () => {
     const { ingredient, id, drinkOrMeal } = this.props;
     const storage = JSON.parse(localStorage.getItem('inProgressRecipes'));
 
-    if (storage) {
+    if (storage && storage[drinkOrMeal] && storage[drinkOrMeal][id]) {
       return storage[drinkOrMeal][id].includes(ingredient);
     }
     return false;
@@ -68,6 +68,7 @@ CheckboxWithLabel.propTypes = {
   index: PropTypes.number.isRequired,
   drinkOrMeal: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
+  activateButton: PropTypes.func.isRequired,
 };
 
 export default CheckboxWithLabel;

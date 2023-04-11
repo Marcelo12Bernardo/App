@@ -9,7 +9,8 @@ class ShareIcon extends Component {
   setTrueCopied = () => {
     const { dispatch, path, setTrue } = this.props;
     dispatch(loadingFavoriteAction());
-    clipboardCopy(`http://localhost:3000${path}`);
+    const copystring = `http://localhost:3000${path}`;
+    clipboardCopy(copystring.replace('/in-progress', ''));
     setTrue();
     dispatch(loadingFavoriteAction());
   };

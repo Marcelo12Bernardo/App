@@ -10,6 +10,7 @@ class MealInProgress extends Component {
     loading: true,
     ingredients: [],
     meal: [],
+    buttonDesactivated: true,
   };
 
   componentDidMount() {
@@ -41,6 +42,7 @@ class MealInProgress extends Component {
     this.setState({ meal: json.meals[0] }, () => {
       this.gettingIngredients(json.meals);
     });
+    console.log(json.meals);
     const fRD = {
       id: json.meals[0].idMeal,
       type: 'meal',
@@ -53,8 +55,45 @@ class MealInProgress extends Component {
     dispatch(favoriteRecipeDetails(fRD));
   };
 
+  isButtonEnabled = () => {
+    const { id } = this.props;
+    const { ingredients } = this.state;
+    const storage = JSON.parse(localStorage.getItem('inProgressRecipes'));
+    if (storage.meals[id] !== undefined) {
+      if (storage.meals[id].length === ingredients.length) {
+        this.setState({ buttonDesactivated: false });
+      } else {
+        this.setState({ buttonDesactivated: true });
+      }
+    }
+  };
+
+  finishRecipeButton = () => {
+    const { meal } = this.state;
+    const { push } = this.props;
+    const finishDate = new Date();
+    const recipeFinished = {
+      id: meal.idMeal,
+      type: 'meal',
+      nationality: meal.strArea,
+      category: meal.strCategory,
+      alcoholicOrNot: '',
+      name: meal.strMeal,
+      image: meal.strMealThumb,
+      doneDate: finishDate,
+      tags: [],
+    };
+    const doneRecipes = localStorage.getItem('doneRecipes');
+    if (doneRecipes) {
+      localStorage.setItem('doneRecipes', [...doneRecipes, recipeFinished]);
+    } else {
+      localStorage.setItem('doneRecipes', [recipeFinished]);
+    }
+    push('/done-recipes');
+  };
+
   render() {
-    const { loading, ingredients, meal } = this.state;
+    const { loading, ingredients, meal, buttonDesactivated } = this.state;
     const { id } = this.props;
     return (
       loading ? null : (
@@ -87,11 +126,14 @@ class MealInProgress extends Component {
               ingredient={ ingredient }
               drinkOrMeal="meals"
               id={ id }
+              activateButton={ this.isButtonEnabled }
             />
           ))}
           <button
+            disabled={ buttonDesactivated }
             type="button"
             data-testid="finish-recipe-btn"
+            onClick={ this.finishRecipeButton }
           >
             Finish Recipe
           </button>
@@ -103,7 +145,7 @@ class MealInProgress extends Component {
 
 MealInProgress.propTypes = {
   id: PropTypes.string.isRequired,
-  // push: PropTypes.func.isRequired,
+  push: PropTypes.func.isRequired,
   dispatch: PropTypes.func.isRequired,
 };
 

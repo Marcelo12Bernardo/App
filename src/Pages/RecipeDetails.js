@@ -29,7 +29,10 @@ class RecipeDetails extends Component {
       loading ? null : (
         <div>
           {copied && <p>Link copied!</p>}
-          <ShareIcon setTrue={ this.setCopiedTrue } path={ url } />
+          <ShareIcon
+            setTrue={ this.setCopiedTrue }
+            path={ url }
+          />
           {this.isFavorite() ? <BlackHeartIcon /> : <WhiteHeartIcon />}
           {path === '/drinks/:id'
             ? <Drink push={ history.push } id={ id } />
