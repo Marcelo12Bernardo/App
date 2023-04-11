@@ -10,6 +10,7 @@ class DrinkInProgress extends Component {
     loading: true,
     ingredients: [],
     drink: [],
+    buttonDesactivated: true,
   };
 
   componentDidMount() {
@@ -41,6 +42,7 @@ class DrinkInProgress extends Component {
     this.setState({ drink: json.drinks[0] }, () => {
       this.gettingIngredients(json.drinks);
     });
+    console.log(json.drinks[0]);
     const fRD = {
       id: json.drinks[0].idDrink,
       type: 'drink',
@@ -53,8 +55,48 @@ class DrinkInProgress extends Component {
     dispatch(favoriteRecipeDetails(fRD));
   };
 
+  isButtonEnabled = () => {
+    const { id } = this.props;
+    const { ingredients } = this.state;
+    const storage = JSON.parse(localStorage.getItem('inProgressRecipes'));
+    if (storage.drinks[id] !== undefined) {
+      if (storage.drinks[id].length === ingredients.length) {
+        this.setState({ buttonDesactivated: false });
+      } else {
+        this.setState({ buttonDesactivated: true });
+      }
+    }
+  };
+
+  finishRecipeButton = () => {
+    const { drink } = this.state;
+    const { push } = this.props;
+    const finishDate = new Date();
+    const recipeFinished = {
+      id: drink.idDrink,
+      type: 'drink',
+      nationality: '',
+      category: drink.strCategory,
+      alcoholicOrNot: drink.strAlcoholic,
+      name: drink.strDrink,
+      image: drink.strDrinkThumb,
+      doneDate: finishDate.toISOString(),
+      tags: [],
+    };
+    const doneRecipes = localStorage.getItem('doneRecipes');
+    if (doneRecipes) {
+      localStorage.setItem(
+        'doneRecipes',
+        JSON.stringify([...doneRecipes, recipeFinished]),
+      );
+    } else {
+      localStorage.setItem('doneRecipes', JSON.stringify([recipeFinished]));
+    }
+    push('/done-recipes');
+  };
+
   render() {
-    const { loading, ingredients, drink } = this.state;
+    const { loading, ingredients, drink, buttonDesactivated } = this.state;
     const { id } = this.props;
     return (
       loading ? null : (
@@ -87,11 +129,14 @@ class DrinkInProgress extends Component {
               ingredient={ ingredient }
               drinkOrMeal="drinks"
               id={ id }
+              activateButton={ this.isButtonEnabled }
             />
           ))}
           <button
+            disabled={ buttonDesactivated }
             type="button"
             data-testid="finish-recipe-btn"
+            onClick={ this.finishRecipeButton }
           >
             Finish Recipe
           </button>
@@ -103,7 +148,7 @@ class DrinkInProgress extends Component {
 
 DrinkInProgress.propTypes = {
   id: PropTypes.string.isRequired,
-  // push: PropTypes.func.isRequired,
+  push: PropTypes.func.isRequired,
   dispatch: PropTypes.func.isRequired,
 };
 
