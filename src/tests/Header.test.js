@@ -187,4 +187,23 @@ describe('Testa o componente Header', () => {
     const header = screen.queryByRole('header');
     expect(header).toBeNull();
   });
+  it('testando rotas do header profile', async () => {
+    const { history } = renderWithRouterAndRedux(<App />);
+    act(() => {
+      history.push('/meals');
+    });
+    const profileIcon = screen.getByRole('img', { name: /profile icon/i });
+    act(() => {
+      userEvent.click(profileIcon);
+    });
+    const done = await screen.findByTestId(idPageTitle);
+    expect(done).toHaveTextContent('Profile');
+    const doneButton = await screen.findByRole('button', { name: /done recipes/i });
+    act(() => {
+      userEvent.click(doneButton);
+    });
+    expect(history.location.pathname).toBe('/done-recipes');
+    const doneTitle = await screen.findByTestId(idPageTitle);
+    expect(doneTitle).toHaveTextContent('Done Recipes');
+  });
 });
