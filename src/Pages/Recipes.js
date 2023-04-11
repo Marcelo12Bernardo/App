@@ -34,7 +34,9 @@ class Recipes extends Component {
         <Header name={ pathname } />
         <div>
           {
-            pathname === '/meals' ? <Meals /> : <Drinks />
+            pathname === '/meals'
+              ? <Meals />
+              : <Drinks />
           }
         </div>
         <footer>
