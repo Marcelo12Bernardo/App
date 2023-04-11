@@ -85,9 +85,12 @@ class MealInProgress extends Component {
     };
     const doneRecipes = localStorage.getItem('doneRecipes');
     if (doneRecipes) {
-      localStorage.setItem('doneRecipes', [...doneRecipes, recipeFinished]);
+      localStorage.setItem(
+        'doneRecipes',
+        JSON.stringify([...doneRecipes, recipeFinished]),
+      );
     } else {
-      localStorage.setItem('doneRecipes', [recipeFinished]);
+      localStorage.setItem('doneRecipes', JSON.stringify([recipeFinished]));
     }
     push('/done-recipes');
   };
