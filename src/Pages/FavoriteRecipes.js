@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import Header from '../Components/Header';
 import shareIcon from '../images/shareIcon.svg';
@@ -69,8 +68,6 @@ export default class Favorites extends Component {
                     src={ recFavorite.image }
                     alt={ `Imagem da receita ${recFavorite.name}` }
                   />
-                </Link>
-                <Link key={ index } to={ `/meals/${recFavorite.id}` }>
                   <p data-testid={ `${index}-horizontal-name` }>{recFavorite.name}</p>
                 </Link>
                 <p
@@ -110,8 +107,6 @@ export default class Favorites extends Component {
                       src={ recFavorite.image }
                       alt={ `Imagem do drink ${recFavorite.name}` }
                     />
-                  </Link>
-                  <Link key={ index } to={ `/drinks/${recFavorite.id}` }>
                     <p data-testid={ `${index}-horizontal-name` }>{recFavorite.name}</p>
                   </Link>
                   <p data-testid={ `${index}-horizontal-top-text` }>
