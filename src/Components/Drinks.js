@@ -62,7 +62,7 @@ class Drinks extends Component {
             display: 'flex',
             justifyContent: 'center',
             gap: '2px',
-            flexDirection: 'column',
+            // flexDirection: 'column',
           } }
         >
           {
@@ -106,7 +106,7 @@ class Drinks extends Component {
                       data-testid={ `${index}-card-img` }
                       src={ recipe.strDrinkThumb }
                       alt={ recipe.strDrink }
-                      style={ { width: '100px', height: '100px', marginRight: '10px' } }
+                      // style={ { width: '100px', height: '100px', marginRight: '10px' } }
                     />
                     <div
                       data-testid={ `${index}-card-name` }

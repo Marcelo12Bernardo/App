@@ -62,7 +62,7 @@ class Meals extends Component {
             display: 'flex',
             justifyContent: 'center',
             gap: '2px',
-            flexDirection: 'column',
+            // flexDirection: 'column',
           } }
         >
           {categoriesData
@@ -94,7 +94,7 @@ class Meals extends Component {
             flexWrap: 'wrap',
             justifyContent: 'center',
             marginTop: '20px',
-            flexDirection: 'column',
+            // flexDirection: 'column',
           } }
         >
           {recipesByCategory
@@ -105,11 +105,11 @@ class Meals extends Component {
                     data-testid={ `${index}-card-img` }
                     src={ recipe.strMealThumb }
                     alt={ recipe.strMeal }
-                    style={ {
-                      width: '100px',
-                      height: '100px',
-                      marginRight: '10px',
-                    } }
+                    // style={ {
+                    //   width: '100px',
+                    //   height: '100px',
+                    //   marginRight: '10px',
+                    // } }
                   />
                   <div
                     data-testid={ `${index}-card-name` }

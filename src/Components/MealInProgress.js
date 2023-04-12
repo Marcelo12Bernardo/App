@@ -84,7 +84,7 @@ class MealInProgress extends Component {
       doneDate: finishDate.toISOString(),
       tags: meal.strTags.split(','),
     };
-    const doneRecipes = localStorage.getItem('doneRecipes');
+    const doneRecipes = JSON.parse(localStorage.getItem('doneRecipes'));
     if (doneRecipes) {
       localStorage.setItem(
         'doneRecipes',
