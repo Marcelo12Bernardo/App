@@ -7,13 +7,17 @@ import ShareIcon from '../Components/ShareIcon';
 import WhiteHeartIcon from '../Components/WhiteHeartIcon';
 import BlackHeartIcon from '../Components/BlackHeartIcon';
 
+const timeoutNumber = 3000;
+
 class RecipeDetails extends Component {
   state = {
     copied: false,
   };
 
   setCopiedTrue = () => {
-    this.setState({ copied: true });
+    this.setState({ copied: true }, () => setTimeout(() => {
+      this.setState({ copied: false });
+    }, timeoutNumber));
   };
 
   isFavorite = () => {

@@ -7,13 +7,17 @@ import BlackHeartIcon from '../Components/BlackHeartIcon';
 import DrinkInProgress from '../Components/DrinkInProgress';
 import MealInProgress from '../Components/MealInProgress';
 
+const timeoutNumber = 3000;
+
 class RecipeInProgress extends Component {
   state = {
     copied: false,
   };
 
   setCopiedTrue = () => {
-    this.setState({ copied: true });
+    this.setState({ copied: true }, () => setTimeout(() => {
+      this.setState({ copied: false });
+    }, timeoutNumber));
   };
 
   isFavorite = () => {
