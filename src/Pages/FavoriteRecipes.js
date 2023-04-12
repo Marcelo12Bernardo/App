@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import Header from '../Components/Header';
 import shareIcon from '../images/shareIcon.svg';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
@@ -61,12 +63,16 @@ export default class Favorites extends Component {
           {favoriteRecipes.map((recFavorite, index) => (
             recFavorite.type === 'meal' ? (
               <section key={ recFavorite.id } id={ recFavorite.id }>
-                <img
-                  data-testid={ `${index}-horizontal-image` }
-                  src={ recFavorite.image }
-                  alt={ `Imagem da receita ${recFavorite.name}` }
-                />
-                <p data-testid={ `${index}-horizontal-name` }>{recFavorite.name}</p>
+                <Link key={ index } to={ `/meals/${recFavorite.id}` }>
+                  <img
+                    data-testid={ `${index}-horizontal-image` }
+                    src={ recFavorite.image }
+                    alt={ `Imagem da receita ${recFavorite.name}` }
+                  />
+                </Link>
+                <Link key={ index } to={ `/meals/${recFavorite.id}` }>
+                  <p data-testid={ `${index}-horizontal-name` }>{recFavorite.name}</p>
+                </Link>
                 <p
                   data-testid={ `${index}-horizontal-top-text` }
                 >
@@ -93,16 +99,21 @@ export default class Favorites extends Component {
                   />
                 </button>
                 {linkCopied && <p>Link copied!</p>}
+
               </section>
             )
               : (
                 <section key={ recFavorite.id } id={ recFavorite.id }>
-                  <img
-                    data-testid={ `${index}-horizontal-image` }
-                    src={ recFavorite.image }
-                    alt={ `Imagem do drink ${recFavorite.name}` }
-                  />
-                  <p data-testid={ `${index}-horizontal-name` }>{recFavorite.name}</p>
+                  <Link key={ index } to={ `/drinks/${recFavorite.id}` }>
+                    <img
+                      data-testid={ `${index}-horizontal-image` }
+                      src={ recFavorite.image }
+                      alt={ `Imagem do drink ${recFavorite.name}` }
+                    />
+                  </Link>
+                  <Link key={ index } to={ `/drinks/${recFavorite.id}` }>
+                    <p data-testid={ `${index}-horizontal-name` }>{recFavorite.name}</p>
+                  </Link>
                   <p data-testid={ `${index}-horizontal-top-text` }>
                     {`${recFavorite.alcoholicOrNot}`}
                   </p>
