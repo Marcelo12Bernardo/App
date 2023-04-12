@@ -9,7 +9,16 @@ export default class Favorites extends Component {
     super(props);
     this.state = {
       linkCopied: false,
+      doneRecipes: [],
+      filter: 'all',
     };
+    this.filterState = this.filterState.bind(this);
+  }
+
+  componentDidMount() {
+    const json = localStorage.getItem('favoriteRecipes');
+    const doneRecipes = JSON.parse(json) || [];
+    this.setState((prevState) => ({ ...prevState, doneRecipes }));
   }
 
   handleClickFavorite = (id) => {
@@ -31,35 +40,47 @@ export default class Favorites extends Component {
     this.setState({ linkCopied: true });
   };
 
+  filterState(filter) {
+    this.setState({ filter });
+  }
+
   render() {
-    const json = localStorage.getItem('favoriteRecipes');
-    const favoriteRecipes = JSON.parse(json) || [];
-    const { linkCopied } = this.state;
+    const { linkCopied, doneRecipes, filter } = this.state;
+    const filtedRecipes = filter === 'all'
+      ? doneRecipes
+      : doneRecipes.filter((recipe) => recipe.type === filter);
     return (
       <>
         <Header name="Favorite Recipes" />
         <div>
           <button
             data-testid="filter-by-all-btn"
-            type="button"
+            onClick={ () => {
+              this.filterState('all');
+            } }
           >
             All
           </button>
           <button
             data-testid="filter-by-meal-btn"
-            type="button"
+            onClick={ () => {
+              this.filterState('meal');
+            } }
           >
             Meals
           </button>
           <button
             data-testid="filter-by-drink-btn"
-            type="button"
+            onClick={ () => {
+              this.filterState('drink');
+            } }
           >
             Drinks
           </button>
         </div>
         <div>
-          {favoriteRecipes.map((recFavorite, index) => (
+          {filtedRecipes
+          && filtedRecipes.map((recFavorite, index) => (
             recFavorite.type === 'meal' ? (
               <section key={ recFavorite.id } id={ recFavorite.id }>
                 <Link key={ index } to={ `/meals/${recFavorite.id}` }>
