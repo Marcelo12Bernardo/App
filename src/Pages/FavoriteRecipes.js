@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import Header from '../Components/Header';
 import shareIcon from '../images/shareIcon.svg';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
+import Footer from '../Components/Footer';
 
 export default class Favorites extends Component {
   constructor(props) {
@@ -137,6 +138,7 @@ export default class Favorites extends Component {
               )
           ))}
         </div>
+        <Footer />
       </>
     );
   }

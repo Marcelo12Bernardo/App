@@ -83,7 +83,7 @@ class DrinkInProgress extends Component {
       doneDate: finishDate.toISOString(),
       tags: [],
     };
-    const doneRecipes = localStorage.getItem('doneRecipes');
+    const doneRecipes = JSON.parse(localStorage.getItem('doneRecipes'));
     if (doneRecipes) {
       localStorage.setItem(
         'doneRecipes',
