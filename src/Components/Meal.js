@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { motion } from 'framer-motion';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { favoriteRecipeDetails } from '../Redux/Actions/index';
 import '../App.css';
 
@@ -135,18 +136,19 @@ class Meal extends Component {
             >
               {carrousel.map((drink, index) => (
                 <motion.div
+                  key={ drink.idDrink + index }
                   className="iten"
                   data-testid={ `${index}-recommendation-card` }
-                  key={ drink.idDrink + index }
                 >
-                  <p data-testid={ `${index}-recommendation-title` }>
-                    {drink.strDrink}
-                  </p>
-                  <img
-                    src={ drink.strDrinkThumb }
-                    alt={ drink.idDrink }
-                  />
-
+                  <Link to={ `/drinks/${drink.idDrink}` }>
+                    <p data-testid={ `${index}-recommendation-title` }>
+                      {drink.strDrink}
+                    </p>
+                    <img
+                      src={ drink.strDrinkThumb }
+                      alt={ drink.idDrink }
+                    />
+                  </Link>
                 </motion.div>
               ))}
             </motion.div>

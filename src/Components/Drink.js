@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
 import { favoriteRecipeDetails } from '../Redux/Actions/index';
 import '../App.css';
 
@@ -130,15 +131,16 @@ class Drink extends Component {
                       data-testid={ `${index}-recommendation-card` }
                       key={ meal.idDrink + index + meal.strMeal }
                     >
-                      <p data-testid={ `${index}-recommendation-title` }>
-                        {meal.strMeal}
-                      </p>
-                      <img
+                      <Link to={ `/meals/${meal.idMeal}` }>
+                        <p data-testid={ `${index}-recommendation-title` }>
+                          {meal.strMeal}
+                        </p>
+                        <img
                         // data-testid={ `${index}-recommendation-title` }
-                        src={ meal.strMealThumb }
-                        alt={ meal.idMeal }
-                      />
-
+                          src={ meal.strMealThumb }
+                          alt={ meal.idMeal }
+                        />
+                      </Link>
                     </motion.div>
                   ))}
                 </motion.div>
