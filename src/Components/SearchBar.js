@@ -25,24 +25,24 @@ class SearchBar extends Component {
     const { dispatch } = this.props;
     let firstFetch;
     let json;
-    // try {
-    if (foodOrDrink === '/meals') {
-      firstFetch = await fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?i=${inputText}`);
-      json = await firstFetch.json();
-      if (json.meals === null) {
-        global.alert(notFound);
+    try {
+      if (foodOrDrink === '/meals') {
+        firstFetch = await fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?i=${inputText}`);
+        json = await firstFetch.json();
+        if (json.meals === null) {
+          global.alert(notFound);
+        }
+      } else {
+        firstFetch = await
+        fetch(`https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=${inputText}`);
+        json = await firstFetch.json();
+      // if (json.drinks === null) {
+      //   global.alert(notFound);
+      // }
       }
-    } else {
-      firstFetch = await
-      fetch(`https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=${inputText}`);
-      json = await firstFetch.json();
-      if (json.drinks === null) {
-        global.alert(notFound);
-      }
+    } catch (error) {
+      global.alert(notFound);
     }
-    // } catch (error) {
-    //   global.alert(notFound);
-    // }
     dispatch(saveFetchAction(json));
   };
 
@@ -50,24 +50,24 @@ class SearchBar extends Component {
     const { dispatch } = this.props;
     let firstFetch;
     let json;
-    // try {
-    if (foodOrDrink === '/meals') {
-      firstFetch = await fetch(`https://www.themealdb.com/api/json/v1/1/search.php?s=${inputText}`);
-      json = await firstFetch.json();
-      if (json.meals === null) {
-        global.alert(notFound);
+    try {
+      if (foodOrDrink === '/meals') {
+        firstFetch = await fetch(`https://www.themealdb.com/api/json/v1/1/search.php?s=${inputText}`);
+        json = await firstFetch.json();
+        if (json.meals === null) {
+          global.alert(notFound);
+        }
+      } else {
+        firstFetch = await
+        fetch(`https://www.thecocktaildb.com/api/json/v1/1/search.php?s=${inputText}`);
+        json = await firstFetch.json();
+      // if (json.drinks === null) {
+      //   global.alert(notFound);
+      // }
       }
-    } else {
-      firstFetch = await
-      fetch(`https://www.thecocktaildb.com/api/json/v1/1/search.php?s=${inputText}`);
-      json = await firstFetch.json();
-      if (json.drinks === null) {
-        global.alert(notFound);
-      }
+    } catch (error) {
+      global.alert(notFound);
     }
-    // } catch (error) {
-    //   global.alert(notFound);
-    // }
     dispatch(saveFetchAction(json));
   };
 
