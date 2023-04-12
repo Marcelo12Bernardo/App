@@ -5,6 +5,8 @@ import Footer from '../Components/Footer';
 
 const copy = require('clipboard-copy');
 
+const timeoutNumber = 3000;
+
 export default class DoneRecipes extends Component {
   constructor(props) {
     super(props);
@@ -74,6 +76,7 @@ export default class DoneRecipes extends Component {
         >
           Drinks
         </button>
+        {linkCopied && <p>Link copied!</p>}
         {filtedRecipes
           && filtedRecipes.map(
             (
@@ -122,12 +125,15 @@ export default class DoneRecipes extends Component {
                   src="../images/shareIcon.svg"
                   onClick={ () => {
                     copy(`http://localhost:3000/meals/${id}`);
-                    this.setState({ linkCopied: true });
+                    this.setState({ linkCopied: true }, () => {
+                      setTimeout(() => {
+                        this.setState({ linkCopied: false });
+                      }, timeoutNumber);
+                    });
                   } }
                 >
                   Share
                 </button>
-                {linkCopied && <p>Link copied!</p>}
 
                 {/* {tags
                   && tags.map(
