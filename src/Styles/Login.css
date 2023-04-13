@@ -1,0 +1,107 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: blueviolet;
+}
+.tela {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+  width: 360px;
+  height: 800px;
+  background: #FFFFFF;
+  top: 90px;
+  left: 148px;
+}
+#textLogin{
+    position: absolute;
+width: 182px;
+height: 21px;
+left: 89px;
+top: 524px;
+
+font-family: 'Epilogue';
+font-style: italic;
+font-weight: 500;
+font-size: 20px;
+line-height: 20px;
+/* identical to box height */
+
+text-align: center;
+letter-spacing: 0.165em;
+text-transform: uppercase;
+
+color: #41197F;
+}
+
+#inputEmail{
+    position: absolute;
+width: 276px;
+height: 40px;
+left: 42px;
+top: 564px;
+border: 0.5px solid #41197F;
+border-radius: 5px;
+}
+#inputSenha{
+    position: absolute;
+    width: 276px;
+    height: 40px;
+    left: 42px;
+    top: 613px;
+    border: 0.5px solid #41197F;
+border-radius: 5px;
+}
+input::placeholder {
+    font-family: 'Epilogue';
+font-style: normal;
+font-weight: 300;
+font-size: 14px;
+line-height: 14px;
+color: #41197F;
+}
+button{
+    position: absolute;
+width: 276px;
+height: 40px;
+left: 42px;
+top: 662px;
+
+font-family: 'Epilogue';
+font-style: normal;
+font-weight: 700;
+font-size: 14px;
+line-height: 14px;
+text-align: center;
+letter-spacing: 0.03em;
+text-transform: uppercase;
+background: #FCC436;
+border-radius: 5px;
+color: #FFFFFF;
+}
+#logo{
+    position: absolute;
+    width: 198px;
+    height: 157.25px;
+    left: 81px;
+    top: 79.17px;
+    
+    filter: drop-shadow(0.785714px 13.3571px 10.2143px rgba(33, 18, 55, 0.2));
+}
+#backGround{
+    position: absolute;
+    width: 360px;
+    height: 422px;
+left: 0px;
+top: 0px;
+background: #41197F;
+z-index: 0;
+}
+#tomate{
+    
+}
+

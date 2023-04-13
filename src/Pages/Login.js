@@ -1,5 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import Logo from '../images/logoRecipesApp.png';
+import Tomate from '../images/tomate.png';
+
+import '../Styles/Login.css';
 
 class Login extends Component {
   state = {
@@ -12,13 +16,8 @@ class Login extends Component {
     e.preventDefault();
     const { history } = this.props;
     const { email } = this.state;
-    // const loginStorage = localStorage.getItem('user');
-    // if (loginStorage) {
-    //   history.push('/meals');
-    // } else {
     localStorage.setItem('user', JSON.stringify({ email }));
     history.push('/meals');
-    // }
   };
 
   handleChange = ({ target }) => {
@@ -43,30 +42,49 @@ class Login extends Component {
   render() {
     const { email, password, buttonDisabled } = this.state;
     return (
-      <form>
-        <input
-          type="email"
-          data-testid="email-input"
-          name="email"
-          value={ email }
-          onChange={ this.handleChange }
-        />
-        <input
-          type="password"
-          data-testid="password-input"
-          name="password"
-          value={ password }
-          onChange={ this.handleChange }
-        />
-        <button
-          data-testid="login-submit-btn"
-          disabled={ buttonDisabled }
-          onClick={ (e) => this.handleClick(e) }
-        >
-          Entrar
+      <div className="tela">
+        <section id="backGround">
+          <img
+            src={ Logo }
+            alt="Logo"
+            id="logo"
+          />
+          <img
+            src={ Tomate }
+            alt="Imagem de tomates"
+            id="tomate"
+          />
+        </section>
+        <form>
+          <h2 id="textLogin">Login</h2>
+          <input
+            type="email"
+            data-testid="email-input"
+            name="email"
+            value={ email }
+            onChange={ this.handleChange }
+            id="inputEmail"
+            placeholder="Email"
+          />
+          <input
+            type="password"
+            data-testid="password-input"
+            name="password"
+            value={ password }
+            onChange={ this.handleChange }
+            id="inputSenha"
+            placeholder="Password"
+          />
+          <button
+            data-testid="login-submit-btn"
+            disabled={ buttonDisabled }
+            onClick={ (e) => this.handleClick(e) }
+          >
+            Entrar
 
-        </button>
-      </form>
+          </button>
+        </form>
+      </div>
     );
   }
 }
