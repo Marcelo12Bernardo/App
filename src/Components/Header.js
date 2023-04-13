@@ -4,6 +4,10 @@ import { connect } from 'react-redux';
 import ProfileIcon from './ProfileIcon';
 import SearchIcon from './SearchIcon';
 import SearchBar from './SearchBar';
+import restaurant from '../images/restaurantIcon.svg';
+import logo from '../images/logo.svg';
+
+import '../Styles/Header.css';
 
 class Header extends Component {
   headerTitle = () => {
@@ -21,29 +25,25 @@ class Header extends Component {
     const { searchBar } = this.props;
     const { name } = this.props;
     return (
-      <div
-        style={ {
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-        } }
+      <header
+        data-testid="page-title"
+        id="container"
       >
-
-        <header
-          data-testid="page-title"
-          style={ {
-            width: '100%',
-            padding: '10px',
-            display: 'flex',
-            justifyContent: 'space-around',
-          } }
-        >
+        <div id="icons-container">
+          <div id="logo-container">
+            <img src={ restaurant } alt="Icone restaurante" />
+            <img src={ logo } alt="Logo Recipes App" />
+          </div>
+          <div id="search-profile-container">
+            {name === '/meals' || name === '/drinks' ? <SearchIcon /> : null}
+            {searchBar && <SearchBar foodOrDrink={ name } /> }
+            <ProfileIcon />
+          </div>
+        </div>
+        <div id="title-container">
           {this.headerTitle()}
-          {name === '/meals' || name === '/drinks' ? <SearchIcon /> : null}
-          {searchBar && <SearchBar foodOrDrink={ name } /> }
-          <ProfileIcon />
-        </header>
-      </div>
+        </div>
+      </header>
     );
   }
 }
