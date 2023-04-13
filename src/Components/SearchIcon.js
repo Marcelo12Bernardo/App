@@ -15,7 +15,7 @@ class SearchIcon extends Component {
       <button
         type="button"
         onClick={ this.handleClick }
-        style={ { backgroundColor: 'white', border: 'none' } }
+        style={ { backgroundColor: '#FCDC36', border: 'none' } }
       >
         <img
           data-testid="search-top-btn"
