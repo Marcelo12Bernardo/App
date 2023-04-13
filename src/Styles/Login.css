@@ -64,7 +64,7 @@ font-size: 14px;
 line-height: 14px;
 color: #41197F;
 }
-button{
+#btnLogin{
     position: absolute;
 width: 276px;
 height: 40px;

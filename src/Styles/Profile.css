@@ -1,0 +1,85 @@
+#iconProfile{
+    position: absolute;
+width: 28.71px;
+height: 28.71px;
+left: 166px;
+top: 83px;
+}
+#textProfile{
+    position: absolute;
+width: 147px;
+height: 21px;
+left: 107px;
+top: 126px;
+
+font-family: 'Epilogue';
+font-style: normal;
+font-weight: 900;
+font-size: 20px;
+line-height: 20px;
+/* identical to box height */
+
+text-align: center;
+letter-spacing: 0.105em;
+text-transform: uppercase;
+
+color: #41197F
+}
+#email{
+position: absolute;
+width: 273px;
+height: 12px;
+left: 44px;
+top: 188px;
+font-family: 'Epilogue';
+font-style: normal;
+font-weight: 700;
+font-size: 16px;
+line-height: 16px;
+text-align: center;
+
+color: #1A1B1C;
+
+}
+.btn{
+width: 256px;
+height: 16px;
+font-family: 'Epilogue';
+font-style: normal;
+font-weight: 500;
+font-size: 16px;
+line-height: 16px;
+display: flex;
+align-items: center;
+letter-spacing: 0.03em;
+text-transform: capitalize;
+color: #797D86;
+padding-left: 10px;
+}
+
+.img{
+width: 39.43px;
+height: 38.69px;
+}
+
+#div1{
+    position: absolute;
+width: 217.44px;
+height: 38.69px;
+left: 57.56px;
+top: 261px;
+}
+#div2{
+    position: absolute;
+width: 217px;
+height: 38.69px;
+left: 58px;
+top: 347px;
+}
+#div3{
+    position: absolute;
+width: 220px;
+height: 38.69px;
+left: 55px;
+top: 433px;
+}
