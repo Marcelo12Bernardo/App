@@ -1,0 +1,38 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+#container {
+  position: absolute;
+  width: 360px;
+  left: 0px;
+  top: 0px;
+  margin-bottom: 100px;
+}
+
+#icons-container {
+  position: absolute;
+  width: 360px;
+  height: 52px;
+  left: 0px;
+  top: 0px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px;
+  background: #FCDC36;
+}
+
+#title-container {
+  margin-top: 60px;
+  font-family: 'Epilogue';
+  font-style: normal;
+  font-weight: 900;
+  font-size: 20px;
+  line-height: 20px;
+  text-align: center;
+  letter-spacing: 0.105em;
+  text-transform: uppercase;
+  color: #41197F;
+}

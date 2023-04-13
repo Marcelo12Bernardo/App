@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { saveFetchAction } from '../Redux/Actions';
 
+import '../Styles/SearchBar.css';
+
 const notFound = 'Sorry, we haven\'t found any recipes for these filters.';
 
 class SearchBar extends Component {
@@ -36,9 +38,9 @@ class SearchBar extends Component {
         firstFetch = await
         fetch(`https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=${inputText}`);
         json = await firstFetch.json();
-      // if (json.drinks === null) {
-      //   global.alert(notFound);
-      // }
+        // if (json.drinks === null) {
+        //   global.alert(notFound);
+        // }
       }
     } catch (error) {
       global.alert(notFound);
@@ -61,9 +63,9 @@ class SearchBar extends Component {
         firstFetch = await
         fetch(`https://www.thecocktaildb.com/api/json/v1/1/search.php?s=${inputText}`);
         json = await firstFetch.json();
-      // if (json.drinks === null) {
-      //   global.alert(notFound);
-      // }
+        // if (json.drinks === null) {
+        //   global.alert(notFound);
+        // }
       }
     } catch (error) {
       global.alert(notFound);
@@ -131,58 +133,64 @@ class SearchBar extends Component {
         <input
           type="text"
           data-testid="search-input"
+          id="search-input"
           value={ inputText }
           name="inputText"
           onChange={ this.handleChange }
         />
         <br />
-        <label
-          htmlFor="ingredient"
-        >
-          Ingredient
-          <input
-            data-testid="ingredient-search-radio"
-            id="ingredient"
-            type="radio"
-            name="searchFilter"
-            value="ingredient"
-            onChange={ this.handleChange }
-          />
-        </label>
-        <label
-          htmlFor="name"
-        >
-          Name
-          <input
-            data-testid="name-search-radio"
-            id="name"
-            type="radio"
-            name="searchFilter"
-            value="name"
-            onChange={ this.handleChange }
-          />
-        </label>
-        <label
-          htmlFor="firstLetter"
-        >
-          First letter
-          <input
-            data-testid="first-letter-search-radio"
-            id="firstLetter"
-            type="radio"
-            name="searchFilter"
-            value="firstLetter"
-            onChange={ this.handleChange }
-          />
-        </label>
-        <br />
-        <button
-          data-testid="exec-search-btn"
-          onClick={ this.handleClick }
-        >
-          Search
+        <div id="form-container">
+          <div id="selectors-container">
+            <label
+              htmlFor="ingredient"
+            >
+              Ingredient
+              <input
+                data-testid="ingredient-search-radio"
+                id="ingredient"
+                type="radio"
+                name="searchFilter"
+                value="ingredient"
+                onChange={ this.handleChange }
+              />
+            </label>
+            <label
+              htmlFor="name"
+            >
+              Name
+              <input
+                data-testid="name-search-radio"
+                id="name"
+                type="radio"
+                name="searchFilter"
+                value="name"
+                onChange={ this.handleChange }
+              />
+            </label>
+            <label
+              htmlFor="firstLetter"
+            >
+              First letter
+              <input
+                data-testid="first-letter-search-radio"
+                id="firstLetter"
+                type="radio"
+                name="searchFilter"
+                value="firstLetter"
+                onChange={ this.handleChange }
+              />
+            </label>
+          </div>
+          <br />
+          <button
+            data-testid="exec-search-btn"
+            id="exec-search-btn"
+            onClick={ this.handleClick }
+          >
+            Search
 
-        </button>
+          </button>
+        </div>
       </form>
     );
   }
