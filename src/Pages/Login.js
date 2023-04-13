@@ -79,6 +79,7 @@ class Login extends Component {
             data-testid="login-submit-btn"
             disabled={ buttonDisabled }
             onClick={ (e) => this.handleClick(e) }
+            id="btnLogin"
           >
             Entrar
 
