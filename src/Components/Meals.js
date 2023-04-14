@@ -2,12 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import All from '../images/All.png';
-import Beef from '../images/beef.png';
-import Goat from '../images/goat.png';
-import Chicken from '../images/chicken.png';
-import Breakfast from '../images/breakfast.png';
-import Dessert from '../images/dessert.png';
+import iconMeals from '../images/icone-prato.png';
 import '../Styles/Cards.css';
 
 class Meals extends Component {
@@ -63,11 +58,17 @@ class Meals extends Component {
     const { categoriesData, recipesByCategory, isFilter } = this.state;
 
     return (
-      <>
-        <div>
+      <div>
+        <img
+          src={ iconMeals }
+          alt="Icone de prato"
+          className="imgIconPage"
+        />
+        <div className="categorias">
           {categoriesData
             && categoriesData.map((categoryName, categoryIndex) => (
               <button
+                className="brnCategoria"
                 key={ `${categoryName}${categoryIndex}` }
                 data-testid={ `${categoryName}-category-filter` }
                 onClick={ () => {
@@ -84,6 +85,7 @@ class Meals extends Component {
               </button>
             ))}
           <button
+            className="brnCategoria"
             data-testid="All-category-filter"
             onClick={ () => this.handleRenderRecipes() }
           >
@@ -91,13 +93,7 @@ class Meals extends Component {
           </button>
         </div>
         <div
-          style={ {
-            display: 'flex',
-            flexWrap: 'wrap',
-            justifyContent: 'center',
-            marginTop: '20px',
-            // flexDirection: 'column',
-          } }
+          id="recipes"
         >
           {recipesByCategory
             && recipesByCategory.map((recipe, index) => (
@@ -107,15 +103,11 @@ class Meals extends Component {
                     data-testid={ `${index}-card-img` }
                     src={ recipe.strMealThumb }
                     alt={ recipe.strMeal }
-                    // style={ {
-                    //   width: '100px',
-                    //   height: '100px',
-                    //   marginRight: '10px',
-                    // } }
+                    className="imgFoods"
                   />
                   <div
                     data-testid={ `${index}-card-name` }
-                    style={ { fontSize: '10px' } }
+                    className="titleFood"
                   >
                     {recipe.strMeal}
                   </div>
@@ -123,7 +115,7 @@ class Meals extends Component {
               </Link>
             ))}
         </div>
-      </>
+      </div>
     );
   }
 }

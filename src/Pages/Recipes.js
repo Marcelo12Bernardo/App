@@ -7,7 +7,7 @@ import Header from '../Components/Header';
 import { pushAction, saveFetchAction } from '../Redux/Actions';
 import Footer from '../Components/Footer';
 
-import '../Styles/Recipes.css';
+// import '../Styles/Recipes.css';
 
 class Recipes extends Component {
   state = {
@@ -48,7 +48,7 @@ class Recipes extends Component {
     const { history: { location: { pathname } } } = this.props;
     const { loading } = this.state;
     return (
-      <div id="allContainer">
+      <div className="tela">
         <Header name={ pathname } />
         {loading ? <p>Carregando...</p> : (
           <div id="recipesContainer">

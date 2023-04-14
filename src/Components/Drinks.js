@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import iconDrinks from '../images/icone-bebida.png';
+import '../Styles/Cards.css';
 
 class Drinks extends Component {
   state = {
@@ -57,17 +59,16 @@ class Drinks extends Component {
 
     return (
       <>
-        <div
-          style={ {
-            display: 'flex',
-            justifyContent: 'center',
-            gap: '2px',
-            // flexDirection: 'column',
-          } }
-        >
+        <img
+          src={ iconDrinks }
+          alt="Icone de prato"
+          className="imgIconPage"
+        />
+        <div className="categorias">
           {
             categoriesData && categoriesData.map((categoryName, categoryIndex) => (
               <button
+                className="brnCategoria"
                 key={ `${categoryName}${categoryIndex}` }
                 data-testid={ `${categoryName}-category-filter` }
                 onClick={ () => {
@@ -81,6 +82,7 @@ class Drinks extends Component {
             ))
           }
           <button
+            className="brnCategoria"
             data-testid="All-category-filter"
             onClick={ () => this.handleRenderRecipes() }
           >
@@ -88,12 +90,7 @@ class Drinks extends Component {
           </button>
         </div>
         <div
-          style={ {
-            display: 'flex',
-            flexWrap: 'wrap',
-            justifyContent: 'center',
-            marginTop: '20px',
-          } }
+          id="recipes"
         >
           {
             recipesByCategory
@@ -106,11 +103,11 @@ class Drinks extends Component {
                       data-testid={ `${index}-card-img` }
                       src={ recipe.strDrinkThumb }
                       alt={ recipe.strDrink }
-                      // style={ { width: '100px', height: '100px', marginRight: '10px' } }
+                      className="imgFoods"
                     />
                     <div
                       data-testid={ `${index}-card-name` }
-                      style={ { fontSize: '10px' } }
+                      className="titleFood"
                     >
                       {recipe.strDrink}
                     </div>

@@ -30,7 +30,6 @@ export default class Profile extends Component {
           alt="Icone de usuario"
           id="iconProfile"
         />
-        <h2 id="textProfile">Profile</h2>
         <h3
           id="email"
           data-testid="profile-email"

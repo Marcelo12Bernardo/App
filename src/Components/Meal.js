@@ -4,8 +4,6 @@ import { motion } from 'framer-motion';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { favoriteRecipeDetails } from '../Redux/Actions/index';
-// import '../App.css';
-
 
 class Meal extends Component {
   state = {
