@@ -2,6 +2,13 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import All from '../images/All.png';
+import Beef from '../images/beef.png';
+import Goat from '../images/goat.png';
+import Chicken from '../images/chicken.png';
+import Breakfast from '../images/breakfast.png';
+import Dessert from '../images/dessert.png';
+import '../Styles/Cards.css';
 
 class Meals extends Component {
   state = {
@@ -57,14 +64,7 @@ class Meals extends Component {
 
     return (
       <>
-        <div
-          style={ {
-            display: 'flex',
-            justifyContent: 'center',
-            gap: '2px',
-            // flexDirection: 'column',
-          } }
-        >
+        <div>
           {categoriesData
             && categoriesData.map((categoryName, categoryIndex) => (
               <button
@@ -78,7 +78,9 @@ class Meals extends Component {
                   else this.handleSearchByCategory(categoryName);
                 } }
               >
-                {categoryName}
+
+                { categoryName }
+
               </button>
             ))}
           <button

@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
 
-import drinkIcon from '../images/drinkIcon.svg';
-import mealIcon from '../images/mealIcon.svg';
+import drinkIcon from '../images/icone-bebida.png';
+import mealIcon from '../images/icone-prato.png';
+import '../Styles/Footer.css';
 
 class Footer extends Component {
   render() {
@@ -11,19 +12,12 @@ class Footer extends Component {
     return (
       <div
         data-testid="footer"
-        style={ {
-          bottom: 0,
-          position: 'fixed',
-          width: '100%',
-          padding: '10px',
-          display: 'flex',
-          justifyContent: 'space-around',
-        } }
+        id="rodape"
       >
         <button
           type="button"
           onClick={ () => redirect('/drinks') }
-          style={ { backgroundColor: 'white', border: 'none' } }
+          id="btnDrink"
         >
           <img
             data-testid="drinks-bottom-btn"
@@ -35,7 +29,7 @@ class Footer extends Component {
         <button
           type="button"
           onClick={ () => redirect('/meals') }
-          style={ { backgroundColor: 'white', border: 'none' } }
+          id="btnMeal"
         >
           <img
             data-testid="meals-bottom-btn"

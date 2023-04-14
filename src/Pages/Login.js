@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Logo from '../images/logoRecipesApp.png';
 import Tomate from '../images/tomate.png';
-
-// import '../Styles/Login.css';
+import '../Styles/Login.css';
 
 class Login extends Component {
   state = {
